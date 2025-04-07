@@ -1,0 +1,4271 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "76a4b8ac",
+   "metadata": {
+    "_cell_guid": "b1076dfc-b9ad-4769-8c92-a6c4dae69d19",
+    "_uuid": "8f2839f25d086af736a60e9eeb907d3b93b6e0e5",
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:17.154760Z",
+     "iopub.status.busy": "2025-04-07T19:16:17.154248Z",
+     "iopub.status.idle": "2025-04-07T19:16:17.161753Z",
+     "shell.execute_reply": "2025-04-07T19:16:17.160343Z"
+    },
+    "papermill": {
+     "duration": 0.023663,
+     "end_time": "2025-04-07T19:16:17.164087",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:17.140424",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Hello World\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(\"Hello World\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "0e433212",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:17.188515Z",
+     "iopub.status.busy": "2025-04-07T19:16:17.188181Z",
+     "iopub.status.idle": "2025-04-07T19:16:18.221905Z",
+     "shell.execute_reply": "2025-04-07T19:16:18.220883Z"
+    },
+    "papermill": {
+     "duration": 1.047816,
+     "end_time": "2025-04-07T19:16:18.223872",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:17.176056",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "import pandas as pd\n",
+    "import numpy as np\n",
+    "import matplotlib.pyplot as plt"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "b17ac92f",
+   "metadata": {
+    "papermill": {
+     "duration": 0.011053,
+     "end_time": "2025-04-07T19:16:18.246385",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:18.235332",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "**data set is not enocoded with utf8 maybe it contains some special characters using another encoding to load the dataset ,encoding=\"latin1\" or encoding=\"cp1252\"**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "1f700746",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:18.271640Z",
+     "iopub.status.busy": "2025-04-07T19:16:18.271116Z",
+     "iopub.status.idle": "2025-04-07T19:16:18.299410Z",
+     "shell.execute_reply": "2025-04-07T19:16:18.298060Z"
+    },
+    "papermill": {
+     "duration": 0.043834,
+     "end_time": "2025-04-07T19:16:18.301454",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:18.257620",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "df = pd.read_csv(\"/kaggle/input/unstructured-data/unstructured_data.csv\", encoding=\"cp1252\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "id": "51334b0c",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:18.326054Z",
+     "iopub.status.busy": "2025-04-07T19:16:18.325603Z",
+     "iopub.status.idle": "2025-04-07T19:16:18.357329Z",
+     "shell.execute_reply": "2025-04-07T19:16:18.356120Z"
+    },
+    "papermill": {
+     "duration": 0.045974,
+     "end_time": "2025-04-07T19:16:18.359051",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:18.313077",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "<class 'pandas.core.frame.DataFrame'>\n",
+      "RangeIndex: 14 entries, 0 to 13\n",
+      "Data columns (total 16 columns):\n",
+      " #   Column                     Non-Null Count  Dtype  \n",
+      "---  ------                     --------------  -----  \n",
+      " 0   movie_title                14 non-null     object \n",
+      " 1   num_critic_for_reviews     14 non-null     int64  \n",
+      " 2   duration                   11 non-null     float64\n",
+      " 3   DIRECTOR_facebook_likes    12 non-null     object \n",
+      " 4   actor_3_facebook_likes     14 non-null     int64  \n",
+      " 5   ACTOR_1_facebook_likes     14 non-null     int64  \n",
+      " 6   gross                      14 non-null     int64  \n",
+      " 7   num_voted_users            13 non-null     float64\n",
+      " 8   Cast_Total_facebook_likes  12 non-null     float64\n",
+      " 9   facenumber_in_poster       9 non-null      float64\n",
+      " 10  num_user_for_reviews       14 non-null     int64  \n",
+      " 11  budget                     14 non-null     int64  \n",
+      " 12  title_year                 14 non-null     int64  \n",
+      " 13  ACTOR_2_facebook_likes     13 non-null     float64\n",
+      " 14  imdb_score                 14 non-null     float64\n",
+      " 15  title_year.1               7 non-null      float64\n",
+      "dtypes: float64(7), int64(7), object(2)\n",
+      "memory usage: 1.9+ KB\n"
+     ]
+    }
+   ],
+   "source": [
+    "df.info()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "cf380f54",
+   "metadata": {
+    "papermill": {
+     "duration": 0.01173,
+     "end_time": "2025-04-07T19:16:18.382922",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:18.371192",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "**the second way of finding whether we have null values in the data is by using the isnull() function**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "id": "8703057a",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:18.407860Z",
+     "iopub.status.busy": "2025-04-07T19:16:18.407455Z",
+     "iopub.status.idle": "2025-04-07T19:16:18.411992Z",
+     "shell.execute_reply": "2025-04-07T19:16:18.410666Z"
+    },
+    "papermill": {
+     "duration": 0.019593,
+     "end_time": "2025-04-07T19:16:18.413863",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:18.394270",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "d = df"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "id": "055e5a35",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:18.438023Z",
+     "iopub.status.busy": "2025-04-07T19:16:18.437566Z",
+     "iopub.status.idle": "2025-04-07T19:16:18.444881Z",
+     "shell.execute_reply": "2025-04-07T19:16:18.443594Z"
+    },
+    "papermill": {
+     "duration": 0.021025,
+     "end_time": "2025-04-07T19:16:18.446543",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:18.425518",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "movie_title                  0\n",
+      "num_critic_for_reviews       0\n",
+      "duration                     3\n",
+      "DIRECTOR_facebook_likes      2\n",
+      "actor_3_facebook_likes       0\n",
+      "ACTOR_1_facebook_likes       0\n",
+      "gross                        0\n",
+      "num_voted_users              1\n",
+      "Cast_Total_facebook_likes    2\n",
+      "facenumber_in_poster         5\n",
+      "num_user_for_reviews         0\n",
+      "budget                       0\n",
+      "title_year                   0\n",
+      "ACTOR_2_facebook_likes       1\n",
+      "imdb_score                   0\n",
+      "title_year.1                 7\n",
+      "dtype: int64\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(df.isnull().sum())"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "3b32e566",
+   "metadata": {
+    "papermill": {
+     "duration": 0.011753,
+     "end_time": "2025-04-07T19:16:18.469793",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:18.458040",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "**Handling Missing Values**\n",
+    "1. Deleting the columns with missing data"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "id": "3e40926e",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:18.496174Z",
+     "iopub.status.busy": "2025-04-07T19:16:18.495649Z",
+     "iopub.status.idle": "2025-04-07T19:16:18.504158Z",
+     "shell.execute_reply": "2025-04-07T19:16:18.503049Z"
+    },
+    "papermill": {
+     "duration": 0.023187,
+     "end_time": "2025-04-07T19:16:18.505767",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:18.482580",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "updated_df = df.dropna(axis=1)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "id": "197ba6ad",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:18.530134Z",
+     "iopub.status.busy": "2025-04-07T19:16:18.529587Z",
+     "iopub.status.idle": "2025-04-07T19:16:18.541023Z",
+     "shell.execute_reply": "2025-04-07T19:16:18.539439Z"
+    },
+    "papermill": {
+     "duration": 0.025553,
+     "end_time": "2025-04-07T19:16:18.542784",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:18.517231",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "<class 'pandas.core.frame.DataFrame'>\n",
+      "RangeIndex: 14 entries, 0 to 13\n",
+      "Data columns (total 9 columns):\n",
+      " #   Column                  Non-Null Count  Dtype  \n",
+      "---  ------                  --------------  -----  \n",
+      " 0   movie_title             14 non-null     object \n",
+      " 1   num_critic_for_reviews  14 non-null     int64  \n",
+      " 2   actor_3_facebook_likes  14 non-null     int64  \n",
+      " 3   ACTOR_1_facebook_likes  14 non-null     int64  \n",
+      " 4   gross                   14 non-null     int64  \n",
+      " 5   num_user_for_reviews    14 non-null     int64  \n",
+      " 6   budget                  14 non-null     int64  \n",
+      " 7   title_year              14 non-null     int64  \n",
+      " 8   imdb_score              14 non-null     float64\n",
+      "dtypes: float64(1), int64(7), object(1)\n",
+      "memory usage: 1.1+ KB\n"
+     ]
+    }
+   ],
+   "source": [
+    "updated_df.info()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "755d0613",
+   "metadata": {
+    "papermill": {
+     "duration": 0.011414,
+     "end_time": "2025-04-07T19:16:18.565920",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:18.554506",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "**Handling Missing Values**\n",
+    "\n",
+    "2. Deleting the rows with missing data"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "id": "502211ab",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:18.590047Z",
+     "iopub.status.busy": "2025-04-07T19:16:18.589601Z",
+     "iopub.status.idle": "2025-04-07T19:16:18.593899Z",
+     "shell.execute_reply": "2025-04-07T19:16:18.592837Z"
+    },
+    "papermill": {
+     "duration": 0.018306,
+     "end_time": "2025-04-07T19:16:18.595583",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:18.577277",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "# updated_df = df.dropna(axis=0)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "id": "d214ec45",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:18.621096Z",
+     "iopub.status.busy": "2025-04-07T19:16:18.620676Z",
+     "iopub.status.idle": "2025-04-07T19:16:18.631228Z",
+     "shell.execute_reply": "2025-04-07T19:16:18.629844Z"
+    },
+    "papermill": {
+     "duration": 0.025461,
+     "end_time": "2025-04-07T19:16:18.633292",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:18.607831",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "<class 'pandas.core.frame.DataFrame'>\n",
+      "RangeIndex: 14 entries, 0 to 13\n",
+      "Data columns (total 9 columns):\n",
+      " #   Column                  Non-Null Count  Dtype  \n",
+      "---  ------                  --------------  -----  \n",
+      " 0   movie_title             14 non-null     object \n",
+      " 1   num_critic_for_reviews  14 non-null     int64  \n",
+      " 2   actor_3_facebook_likes  14 non-null     int64  \n",
+      " 3   ACTOR_1_facebook_likes  14 non-null     int64  \n",
+      " 4   gross                   14 non-null     int64  \n",
+      " 5   num_user_for_reviews    14 non-null     int64  \n",
+      " 6   budget                  14 non-null     int64  \n",
+      " 7   title_year              14 non-null     int64  \n",
+      " 8   imdb_score              14 non-null     float64\n",
+      "dtypes: float64(1), int64(7), object(1)\n",
+      "memory usage: 1.1+ KB\n"
+     ]
+    }
+   ],
+   "source": [
+    "updated_df.info()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "aa2e87cf",
+   "metadata": {
+    "papermill": {
+     "duration": 0.011014,
+     "end_time": "2025-04-07T19:16:18.656264",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:18.645250",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "**we gonna go with column drop cause we see more duplicates values are there in column**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "id": "27ee9e81",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:18.681429Z",
+     "iopub.status.busy": "2025-04-07T19:16:18.681039Z",
+     "iopub.status.idle": "2025-04-07T19:16:18.707032Z",
+     "shell.execute_reply": "2025-04-07T19:16:18.705623Z"
+    },
+    "papermill": {
+     "duration": 0.04115,
+     "end_time": "2025-04-07T19:16:18.709118",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:18.667968",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>movie_title</th>\n",
+       "      <th>num_critic_for_reviews</th>\n",
+       "      <th>actor_3_facebook_likes</th>\n",
+       "      <th>ACTOR_1_facebook_likes</th>\n",
+       "      <th>gross</th>\n",
+       "      <th>num_user_for_reviews</th>\n",
+       "      <th>budget</th>\n",
+       "      <th>title_year</th>\n",
+       "      <th>imdb_score</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>Avatar?ÿ</td>\n",
+       "      <td>723</td>\n",
+       "      <td>855</td>\n",
+       "      <td>1000</td>\n",
+       "      <td>760505847</td>\n",
+       "      <td>3054</td>\n",
+       "      <td>237000000</td>\n",
+       "      <td>2009</td>\n",
+       "      <td>7.9</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>Pirates of the Caribbean: At World's End?ÿ</td>\n",
+       "      <td>302</td>\n",
+       "      <td>1000</td>\n",
+       "      <td>40000</td>\n",
+       "      <td>309404152</td>\n",
+       "      <td>1238</td>\n",
+       "      <td>300000000</td>\n",
+       "      <td>2007</td>\n",
+       "      <td>7.1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>Spectre?ÿ</td>\n",
+       "      <td>602</td>\n",
+       "      <td>161</td>\n",
+       "      <td>11000</td>\n",
+       "      <td>200074175</td>\n",
+       "      <td>994</td>\n",
+       "      <td>245000000</td>\n",
+       "      <td>2015</td>\n",
+       "      <td>6.8</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>The Dark Knight Rises?ÿ</td>\n",
+       "      <td>813</td>\n",
+       "      <td>23000</td>\n",
+       "      <td>27000</td>\n",
+       "      <td>448130642</td>\n",
+       "      <td>2701</td>\n",
+       "      <td>250000000</td>\n",
+       "      <td>2012</td>\n",
+       "      <td>8.5</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>John Carter?ÿ</td>\n",
+       "      <td>462</td>\n",
+       "      <td>530</td>\n",
+       "      <td>640</td>\n",
+       "      <td>73058679</td>\n",
+       "      <td>738</td>\n",
+       "      <td>263700000</td>\n",
+       "      <td>2012</td>\n",
+       "      <td>6.6</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "                                  movie_title  num_critic_for_reviews  \\\n",
+       "0                                    Avatar?ÿ                     723   \n",
+       "1  Pirates of the Caribbean: At World's End?ÿ                     302   \n",
+       "2                                   Spectre?ÿ                     602   \n",
+       "3                     The Dark Knight Rises?ÿ                     813   \n",
+       "4                               John Carter?ÿ                     462   \n",
+       "\n",
+       "   actor_3_facebook_likes  ACTOR_1_facebook_likes      gross  \\\n",
+       "0                     855                    1000  760505847   \n",
+       "1                    1000                   40000  309404152   \n",
+       "2                     161                   11000  200074175   \n",
+       "3                   23000                   27000  448130642   \n",
+       "4                     530                     640   73058679   \n",
+       "\n",
+       "   num_user_for_reviews     budget  title_year  imdb_score  \n",
+       "0                  3054  237000000        2009         7.9  \n",
+       "1                  1238  300000000        2007         7.1  \n",
+       "2                   994  245000000        2015         6.8  \n",
+       "3                  2701  250000000        2012         8.5  \n",
+       "4                   738  263700000        2012         6.6  "
+      ]
+     },
+     "execution_count": 11,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "updated_df.head()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "ac9c89db",
+   "metadata": {
+    "papermill": {
+     "duration": 0.011878,
+     "end_time": "2025-04-07T19:16:18.733542",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:18.721664",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "3 Filling the Missing Values - imputation"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "830c9025",
+   "metadata": {
+    "papermill": {
+     "duration": 0.011959,
+     "end_time": "2025-04-07T19:16:18.757777",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:18.745818",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "if it is categorial data such as name place animal we use mode\n",
+    "if it is a numerical data we use mean and median "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "id": "12b6ad6e",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:18.782948Z",
+     "iopub.status.busy": "2025-04-07T19:16:18.782524Z",
+     "iopub.status.idle": "2025-04-07T19:16:18.805183Z",
+     "shell.execute_reply": "2025-04-07T19:16:18.803839Z"
+    },
+    "papermill": {
+     "duration": 0.037322,
+     "end_time": "2025-04-07T19:16:18.807185",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:18.769863",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "/usr/local/lib/python3.10/dist-packages/pandas/io/formats/format.py:1458: RuntimeWarning: invalid value encountered in greater\n",
+      "  has_large_values = (abs_vals > 1e6).any()\n",
+      "/usr/local/lib/python3.10/dist-packages/pandas/io/formats/format.py:1459: RuntimeWarning: invalid value encountered in less\n",
+      "  has_small_values = ((abs_vals < 10 ** (-self.digits)) & (abs_vals > 0)).any()\n",
+      "/usr/local/lib/python3.10/dist-packages/pandas/io/formats/format.py:1459: RuntimeWarning: invalid value encountered in greater\n",
+      "  has_small_values = ((abs_vals < 10 ** (-self.digits)) & (abs_vals > 0)).any()\n"
+     ]
+    },
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>movie_title</th>\n",
+       "      <th>num_critic_for_reviews</th>\n",
+       "      <th>duration</th>\n",
+       "      <th>DIRECTOR_facebook_likes</th>\n",
+       "      <th>actor_3_facebook_likes</th>\n",
+       "      <th>ACTOR_1_facebook_likes</th>\n",
+       "      <th>gross</th>\n",
+       "      <th>num_voted_users</th>\n",
+       "      <th>Cast_Total_facebook_likes</th>\n",
+       "      <th>facenumber_in_poster</th>\n",
+       "      <th>num_user_for_reviews</th>\n",
+       "      <th>budget</th>\n",
+       "      <th>title_year</th>\n",
+       "      <th>ACTOR_2_facebook_likes</th>\n",
+       "      <th>imdb_score</th>\n",
+       "      <th>title_year.1</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>Avatar?ÿ</td>\n",
+       "      <td>723</td>\n",
+       "      <td>178.0</td>\n",
+       "      <td>10</td>\n",
+       "      <td>855</td>\n",
+       "      <td>1000</td>\n",
+       "      <td>760505847</td>\n",
+       "      <td>886204.0</td>\n",
+       "      <td>4834.0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>3054</td>\n",
+       "      <td>237000000</td>\n",
+       "      <td>2009</td>\n",
+       "      <td>936.0</td>\n",
+       "      <td>7.9</td>\n",
+       "      <td>2009.0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>Pirates of the Caribbean: At World's End?ÿ</td>\n",
+       "      <td>302</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>563</td>\n",
+       "      <td>1000</td>\n",
+       "      <td>40000</td>\n",
+       "      <td>309404152</td>\n",
+       "      <td>471220.0</td>\n",
+       "      <td>48350.0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>1238</td>\n",
+       "      <td>300000000</td>\n",
+       "      <td>2007</td>\n",
+       "      <td>5000.0</td>\n",
+       "      <td>7.1</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>Spectre?ÿ</td>\n",
+       "      <td>602</td>\n",
+       "      <td>148.0</td>\n",
+       "      <td>20</td>\n",
+       "      <td>161</td>\n",
+       "      <td>11000</td>\n",
+       "      <td>200074175</td>\n",
+       "      <td>275868.0</td>\n",
+       "      <td>11700.0</td>\n",
+       "      <td>1.0</td>\n",
+       "      <td>994</td>\n",
+       "      <td>245000000</td>\n",
+       "      <td>2015</td>\n",
+       "      <td>393.0</td>\n",
+       "      <td>6.8</td>\n",
+       "      <td>2015.0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>The Dark Knight Rises?ÿ</td>\n",
+       "      <td>813</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>22000</td>\n",
+       "      <td>23000</td>\n",
+       "      <td>27000</td>\n",
+       "      <td>448130642</td>\n",
+       "      <td>1144337.0</td>\n",
+       "      <td>106759.0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>2701</td>\n",
+       "      <td>250000000</td>\n",
+       "      <td>2012</td>\n",
+       "      <td>23000.0</td>\n",
+       "      <td>8.5</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>John Carter?ÿ</td>\n",
+       "      <td>462</td>\n",
+       "      <td>132.0</td>\n",
+       "      <td>\"475\"</td>\n",
+       "      <td>530</td>\n",
+       "      <td>640</td>\n",
+       "      <td>73058679</td>\n",
+       "      <td>212204.0</td>\n",
+       "      <td>1873.0</td>\n",
+       "      <td>1.0</td>\n",
+       "      <td>738</td>\n",
+       "      <td>263700000</td>\n",
+       "      <td>2012</td>\n",
+       "      <td>632.0</td>\n",
+       "      <td>6.6</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "                                  movie_title  num_critic_for_reviews  \\\n",
+       "0                                    Avatar?ÿ                     723   \n",
+       "1  Pirates of the Caribbean: At World's End?ÿ                     302   \n",
+       "2                                   Spectre?ÿ                     602   \n",
+       "3                     The Dark Knight Rises?ÿ                     813   \n",
+       "4                               John Carter?ÿ                     462   \n",
+       "\n",
+       "   duration DIRECTOR_facebook_likes  actor_3_facebook_likes  \\\n",
+       "0     178.0                      10                     855   \n",
+       "1       NaN                     563                    1000   \n",
+       "2     148.0                      20                     161   \n",
+       "3       NaN                   22000                   23000   \n",
+       "4     132.0                   \"475\"                     530   \n",
+       "\n",
+       "   ACTOR_1_facebook_likes      gross  num_voted_users  \\\n",
+       "0                    1000  760505847         886204.0   \n",
+       "1                   40000  309404152         471220.0   \n",
+       "2                   11000  200074175         275868.0   \n",
+       "3                   27000  448130642        1144337.0   \n",
+       "4                     640   73058679         212204.0   \n",
+       "\n",
+       "   Cast_Total_facebook_likes  facenumber_in_poster  num_user_for_reviews  \\\n",
+       "0                     4834.0                   NaN                  3054   \n",
+       "1                    48350.0                   NaN                  1238   \n",
+       "2                    11700.0                   1.0                   994   \n",
+       "3                   106759.0                   NaN                  2701   \n",
+       "4                     1873.0                   1.0                   738   \n",
+       "\n",
+       "      budget  title_year  ACTOR_2_facebook_likes  imdb_score  title_year.1  \n",
+       "0  237000000        2009                   936.0         7.9        2009.0  \n",
+       "1  300000000        2007                  5000.0         7.1           NaN  \n",
+       "2  245000000        2015                   393.0         6.8        2015.0  \n",
+       "3  250000000        2012                 23000.0         8.5           NaN  \n",
+       "4  263700000        2012                   632.0         6.6           NaN  "
+      ]
+     },
+     "execution_count": 12,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "d.head()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "844e2e38",
+   "metadata": {
+    "papermill": {
+     "duration": 0.011967,
+     "end_time": "2025-04-07T19:16:18.833952",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:18.821985",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "checking the value using mean to replace it with null value"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "id": "b295db98",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:18.859676Z",
+     "iopub.status.busy": "2025-04-07T19:16:18.859319Z",
+     "iopub.status.idle": "2025-04-07T19:16:18.865507Z",
+     "shell.execute_reply": "2025-04-07T19:16:18.864431Z"
+    },
+    "papermill": {
+     "duration": 0.021302,
+     "end_time": "2025-04-07T19:16:18.867637",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:18.846335",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "150.72727272727272"
+      ]
+     },
+     "execution_count": 13,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "d['duration'].mean()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "a7baccbd",
+   "metadata": {
+    "papermill": {
+     "duration": 0.012185,
+     "end_time": "2025-04-07T19:16:18.892210",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:18.880025",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "checking the value using median to replace it with null value"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 14,
+   "id": "ce7d3139",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:18.918516Z",
+     "iopub.status.busy": "2025-04-07T19:16:18.918168Z",
+     "iopub.status.idle": "2025-04-07T19:16:18.925125Z",
+     "shell.execute_reply": "2025-04-07T19:16:18.923758Z"
+    },
+    "papermill": {
+     "duration": 0.022422,
+     "end_time": "2025-04-07T19:16:18.927169",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:18.904747",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "151.0"
+      ]
+     },
+     "execution_count": 14,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "d[\"duration\"].median()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "b301ecfd",
+   "metadata": {
+    "papermill": {
+     "duration": 0.011999,
+     "end_time": "2025-04-07T19:16:18.952031",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:18.940032",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "i see mean and median both are same we can choose anything to fill out the whole null values with mean or median \n",
+    "\n",
+    "hence we go with median"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "id": "ffd2aaf1",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:18.978152Z",
+     "iopub.status.busy": "2025-04-07T19:16:18.977792Z",
+     "iopub.status.idle": "2025-04-07T19:16:18.983100Z",
+     "shell.execute_reply": "2025-04-07T19:16:18.981963Z"
+    },
+    "papermill": {
+     "duration": 0.020537,
+     "end_time": "2025-04-07T19:16:18.985048",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:18.964511",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "alex = d\n",
+    "alex['duration'] = alex['duration'].fillna(df['duration'].median())"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "id": "c3e2d82f",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:19.011474Z",
+     "iopub.status.busy": "2025-04-07T19:16:19.011122Z",
+     "iopub.status.idle": "2025-04-07T19:16:19.032004Z",
+     "shell.execute_reply": "2025-04-07T19:16:19.030780Z"
+    },
+    "papermill": {
+     "duration": 0.036177,
+     "end_time": "2025-04-07T19:16:19.033697",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:18.997520",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "/usr/local/lib/python3.10/dist-packages/pandas/io/formats/format.py:1458: RuntimeWarning: invalid value encountered in greater\n",
+      "  has_large_values = (abs_vals > 1e6).any()\n",
+      "/usr/local/lib/python3.10/dist-packages/pandas/io/formats/format.py:1459: RuntimeWarning: invalid value encountered in less\n",
+      "  has_small_values = ((abs_vals < 10 ** (-self.digits)) & (abs_vals > 0)).any()\n",
+      "/usr/local/lib/python3.10/dist-packages/pandas/io/formats/format.py:1459: RuntimeWarning: invalid value encountered in greater\n",
+      "  has_small_values = ((abs_vals < 10 ** (-self.digits)) & (abs_vals > 0)).any()\n"
+     ]
+    },
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>movie_title</th>\n",
+       "      <th>num_critic_for_reviews</th>\n",
+       "      <th>duration</th>\n",
+       "      <th>DIRECTOR_facebook_likes</th>\n",
+       "      <th>actor_3_facebook_likes</th>\n",
+       "      <th>ACTOR_1_facebook_likes</th>\n",
+       "      <th>gross</th>\n",
+       "      <th>num_voted_users</th>\n",
+       "      <th>Cast_Total_facebook_likes</th>\n",
+       "      <th>facenumber_in_poster</th>\n",
+       "      <th>num_user_for_reviews</th>\n",
+       "      <th>budget</th>\n",
+       "      <th>title_year</th>\n",
+       "      <th>ACTOR_2_facebook_likes</th>\n",
+       "      <th>imdb_score</th>\n",
+       "      <th>title_year.1</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>Avatar?ÿ</td>\n",
+       "      <td>723</td>\n",
+       "      <td>178.0</td>\n",
+       "      <td>10</td>\n",
+       "      <td>855</td>\n",
+       "      <td>1000</td>\n",
+       "      <td>760505847</td>\n",
+       "      <td>886204.0</td>\n",
+       "      <td>4834.0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>3054</td>\n",
+       "      <td>237000000</td>\n",
+       "      <td>2009</td>\n",
+       "      <td>936.0</td>\n",
+       "      <td>7.9</td>\n",
+       "      <td>2009.0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>Pirates of the Caribbean: At World's End?ÿ</td>\n",
+       "      <td>302</td>\n",
+       "      <td>151.0</td>\n",
+       "      <td>563</td>\n",
+       "      <td>1000</td>\n",
+       "      <td>40000</td>\n",
+       "      <td>309404152</td>\n",
+       "      <td>471220.0</td>\n",
+       "      <td>48350.0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>1238</td>\n",
+       "      <td>300000000</td>\n",
+       "      <td>2007</td>\n",
+       "      <td>5000.0</td>\n",
+       "      <td>7.1</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>Spectre?ÿ</td>\n",
+       "      <td>602</td>\n",
+       "      <td>148.0</td>\n",
+       "      <td>20</td>\n",
+       "      <td>161</td>\n",
+       "      <td>11000</td>\n",
+       "      <td>200074175</td>\n",
+       "      <td>275868.0</td>\n",
+       "      <td>11700.0</td>\n",
+       "      <td>1.0</td>\n",
+       "      <td>994</td>\n",
+       "      <td>245000000</td>\n",
+       "      <td>2015</td>\n",
+       "      <td>393.0</td>\n",
+       "      <td>6.8</td>\n",
+       "      <td>2015.0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>The Dark Knight Rises?ÿ</td>\n",
+       "      <td>813</td>\n",
+       "      <td>151.0</td>\n",
+       "      <td>22000</td>\n",
+       "      <td>23000</td>\n",
+       "      <td>27000</td>\n",
+       "      <td>448130642</td>\n",
+       "      <td>1144337.0</td>\n",
+       "      <td>106759.0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>2701</td>\n",
+       "      <td>250000000</td>\n",
+       "      <td>2012</td>\n",
+       "      <td>23000.0</td>\n",
+       "      <td>8.5</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>John Carter?ÿ</td>\n",
+       "      <td>462</td>\n",
+       "      <td>132.0</td>\n",
+       "      <td>\"475\"</td>\n",
+       "      <td>530</td>\n",
+       "      <td>640</td>\n",
+       "      <td>73058679</td>\n",
+       "      <td>212204.0</td>\n",
+       "      <td>1873.0</td>\n",
+       "      <td>1.0</td>\n",
+       "      <td>738</td>\n",
+       "      <td>263700000</td>\n",
+       "      <td>2012</td>\n",
+       "      <td>632.0</td>\n",
+       "      <td>6.6</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "                                  movie_title  num_critic_for_reviews  \\\n",
+       "0                                    Avatar?ÿ                     723   \n",
+       "1  Pirates of the Caribbean: At World's End?ÿ                     302   \n",
+       "2                                   Spectre?ÿ                     602   \n",
+       "3                     The Dark Knight Rises?ÿ                     813   \n",
+       "4                               John Carter?ÿ                     462   \n",
+       "\n",
+       "   duration DIRECTOR_facebook_likes  actor_3_facebook_likes  \\\n",
+       "0     178.0                      10                     855   \n",
+       "1     151.0                     563                    1000   \n",
+       "2     148.0                      20                     161   \n",
+       "3     151.0                   22000                   23000   \n",
+       "4     132.0                   \"475\"                     530   \n",
+       "\n",
+       "   ACTOR_1_facebook_likes      gross  num_voted_users  \\\n",
+       "0                    1000  760505847         886204.0   \n",
+       "1                   40000  309404152         471220.0   \n",
+       "2                   11000  200074175         275868.0   \n",
+       "3                   27000  448130642        1144337.0   \n",
+       "4                     640   73058679         212204.0   \n",
+       "\n",
+       "   Cast_Total_facebook_likes  facenumber_in_poster  num_user_for_reviews  \\\n",
+       "0                     4834.0                   NaN                  3054   \n",
+       "1                    48350.0                   NaN                  1238   \n",
+       "2                    11700.0                   1.0                   994   \n",
+       "3                   106759.0                   NaN                  2701   \n",
+       "4                     1873.0                   1.0                   738   \n",
+       "\n",
+       "      budget  title_year  ACTOR_2_facebook_likes  imdb_score  title_year.1  \n",
+       "0  237000000        2009                   936.0         7.9        2009.0  \n",
+       "1  300000000        2007                  5000.0         7.1           NaN  \n",
+       "2  245000000        2015                   393.0         6.8        2015.0  \n",
+       "3  250000000        2012                 23000.0         8.5           NaN  \n",
+       "4  263700000        2012                   632.0         6.6           NaN  "
+      ]
+     },
+     "execution_count": 16,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "alex.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "id": "ffdb53a6",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:19.061050Z",
+     "iopub.status.busy": "2025-04-07T19:16:19.060604Z",
+     "iopub.status.idle": "2025-04-07T19:16:19.072644Z",
+     "shell.execute_reply": "2025-04-07T19:16:19.071325Z"
+    },
+    "papermill": {
+     "duration": 0.028163,
+     "end_time": "2025-04-07T19:16:19.074643",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:19.046480",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "<class 'pandas.core.frame.DataFrame'>\n",
+      "RangeIndex: 14 entries, 0 to 13\n",
+      "Data columns (total 16 columns):\n",
+      " #   Column                     Non-Null Count  Dtype  \n",
+      "---  ------                     --------------  -----  \n",
+      " 0   movie_title                14 non-null     object \n",
+      " 1   num_critic_for_reviews     14 non-null     int64  \n",
+      " 2   duration                   14 non-null     float64\n",
+      " 3   DIRECTOR_facebook_likes    12 non-null     object \n",
+      " 4   actor_3_facebook_likes     14 non-null     int64  \n",
+      " 5   ACTOR_1_facebook_likes     14 non-null     int64  \n",
+      " 6   gross                      14 non-null     int64  \n",
+      " 7   num_voted_users            13 non-null     float64\n",
+      " 8   Cast_Total_facebook_likes  12 non-null     float64\n",
+      " 9   facenumber_in_poster       9 non-null      float64\n",
+      " 10  num_user_for_reviews       14 non-null     int64  \n",
+      " 11  budget                     14 non-null     int64  \n",
+      " 12  title_year                 14 non-null     int64  \n",
+      " 13  ACTOR_2_facebook_likes     13 non-null     float64\n",
+      " 14  imdb_score                 14 non-null     float64\n",
+      " 15  title_year.1               7 non-null      float64\n",
+      "dtypes: float64(7), int64(7), object(2)\n",
+      "memory usage: 1.9+ KB\n"
+     ]
+    }
+   ],
+   "source": [
+    "alex.info()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 18,
+   "id": "18bbfea7",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:19.103027Z",
+     "iopub.status.busy": "2025-04-07T19:16:19.102579Z",
+     "iopub.status.idle": "2025-04-07T19:16:19.123105Z",
+     "shell.execute_reply": "2025-04-07T19:16:19.121908Z"
+    },
+    "papermill": {
+     "duration": 0.036496,
+     "end_time": "2025-04-07T19:16:19.124884",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:19.088388",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "/usr/local/lib/python3.10/dist-packages/pandas/io/formats/format.py:1458: RuntimeWarning: invalid value encountered in greater\n",
+      "  has_large_values = (abs_vals > 1e6).any()\n",
+      "/usr/local/lib/python3.10/dist-packages/pandas/io/formats/format.py:1459: RuntimeWarning: invalid value encountered in less\n",
+      "  has_small_values = ((abs_vals < 10 ** (-self.digits)) & (abs_vals > 0)).any()\n",
+      "/usr/local/lib/python3.10/dist-packages/pandas/io/formats/format.py:1459: RuntimeWarning: invalid value encountered in greater\n",
+      "  has_small_values = ((abs_vals < 10 ** (-self.digits)) & (abs_vals > 0)).any()\n"
+     ]
+    },
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>movie_title</th>\n",
+       "      <th>num_critic_for_reviews</th>\n",
+       "      <th>duration</th>\n",
+       "      <th>DIRECTOR_facebook_likes</th>\n",
+       "      <th>actor_3_facebook_likes</th>\n",
+       "      <th>ACTOR_1_facebook_likes</th>\n",
+       "      <th>gross</th>\n",
+       "      <th>num_voted_users</th>\n",
+       "      <th>Cast_Total_facebook_likes</th>\n",
+       "      <th>facenumber_in_poster</th>\n",
+       "      <th>num_user_for_reviews</th>\n",
+       "      <th>budget</th>\n",
+       "      <th>title_year</th>\n",
+       "      <th>ACTOR_2_facebook_likes</th>\n",
+       "      <th>imdb_score</th>\n",
+       "      <th>title_year.1</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>Avatar?ÿ</td>\n",
+       "      <td>723</td>\n",
+       "      <td>178.0</td>\n",
+       "      <td>10</td>\n",
+       "      <td>855</td>\n",
+       "      <td>1000</td>\n",
+       "      <td>760505847</td>\n",
+       "      <td>886204.0</td>\n",
+       "      <td>4834.0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>3054</td>\n",
+       "      <td>237000000</td>\n",
+       "      <td>2009</td>\n",
+       "      <td>936.0</td>\n",
+       "      <td>7.9</td>\n",
+       "      <td>2009.0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>Pirates of the Caribbean: At World's End?ÿ</td>\n",
+       "      <td>302</td>\n",
+       "      <td>151.0</td>\n",
+       "      <td>563</td>\n",
+       "      <td>1000</td>\n",
+       "      <td>40000</td>\n",
+       "      <td>309404152</td>\n",
+       "      <td>471220.0</td>\n",
+       "      <td>48350.0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>1238</td>\n",
+       "      <td>300000000</td>\n",
+       "      <td>2007</td>\n",
+       "      <td>5000.0</td>\n",
+       "      <td>7.1</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>Spectre?ÿ</td>\n",
+       "      <td>602</td>\n",
+       "      <td>148.0</td>\n",
+       "      <td>20</td>\n",
+       "      <td>161</td>\n",
+       "      <td>11000</td>\n",
+       "      <td>200074175</td>\n",
+       "      <td>275868.0</td>\n",
+       "      <td>11700.0</td>\n",
+       "      <td>1.0</td>\n",
+       "      <td>994</td>\n",
+       "      <td>245000000</td>\n",
+       "      <td>2015</td>\n",
+       "      <td>393.0</td>\n",
+       "      <td>6.8</td>\n",
+       "      <td>2015.0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>The Dark Knight Rises?ÿ</td>\n",
+       "      <td>813</td>\n",
+       "      <td>151.0</td>\n",
+       "      <td>22000</td>\n",
+       "      <td>23000</td>\n",
+       "      <td>27000</td>\n",
+       "      <td>448130642</td>\n",
+       "      <td>1144337.0</td>\n",
+       "      <td>106759.0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>2701</td>\n",
+       "      <td>250000000</td>\n",
+       "      <td>2012</td>\n",
+       "      <td>23000.0</td>\n",
+       "      <td>8.5</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>John Carter?ÿ</td>\n",
+       "      <td>462</td>\n",
+       "      <td>132.0</td>\n",
+       "      <td>\"475\"</td>\n",
+       "      <td>530</td>\n",
+       "      <td>640</td>\n",
+       "      <td>73058679</td>\n",
+       "      <td>212204.0</td>\n",
+       "      <td>1873.0</td>\n",
+       "      <td>1.0</td>\n",
+       "      <td>738</td>\n",
+       "      <td>263700000</td>\n",
+       "      <td>2012</td>\n",
+       "      <td>632.0</td>\n",
+       "      <td>6.6</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "                                  movie_title  num_critic_for_reviews  \\\n",
+       "0                                    Avatar?ÿ                     723   \n",
+       "1  Pirates of the Caribbean: At World's End?ÿ                     302   \n",
+       "2                                   Spectre?ÿ                     602   \n",
+       "3                     The Dark Knight Rises?ÿ                     813   \n",
+       "4                               John Carter?ÿ                     462   \n",
+       "\n",
+       "   duration DIRECTOR_facebook_likes  actor_3_facebook_likes  \\\n",
+       "0     178.0                      10                     855   \n",
+       "1     151.0                     563                    1000   \n",
+       "2     148.0                      20                     161   \n",
+       "3     151.0                   22000                   23000   \n",
+       "4     132.0                   \"475\"                     530   \n",
+       "\n",
+       "   ACTOR_1_facebook_likes      gross  num_voted_users  \\\n",
+       "0                    1000  760505847         886204.0   \n",
+       "1                   40000  309404152         471220.0   \n",
+       "2                   11000  200074175         275868.0   \n",
+       "3                   27000  448130642        1144337.0   \n",
+       "4                     640   73058679         212204.0   \n",
+       "\n",
+       "   Cast_Total_facebook_likes  facenumber_in_poster  num_user_for_reviews  \\\n",
+       "0                     4834.0                   NaN                  3054   \n",
+       "1                    48350.0                   NaN                  1238   \n",
+       "2                    11700.0                   1.0                   994   \n",
+       "3                   106759.0                   NaN                  2701   \n",
+       "4                     1873.0                   1.0                   738   \n",
+       "\n",
+       "      budget  title_year  ACTOR_2_facebook_likes  imdb_score  title_year.1  \n",
+       "0  237000000        2009                   936.0         7.9        2009.0  \n",
+       "1  300000000        2007                  5000.0         7.1           NaN  \n",
+       "2  245000000        2015                   393.0         6.8        2015.0  \n",
+       "3  250000000        2012                 23000.0         8.5           NaN  \n",
+       "4  263700000        2012                   632.0         6.6           NaN  "
+      ]
+     },
+     "execution_count": 18,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "alex.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 19,
+   "id": "c4852aaf",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:19.152397Z",
+     "iopub.status.busy": "2025-04-07T19:16:19.152058Z",
+     "iopub.status.idle": "2025-04-07T19:16:19.159583Z",
+     "shell.execute_reply": "2025-04-07T19:16:19.158502Z"
+    },
+    "papermill": {
+     "duration": 0.023491,
+     "end_time": "2025-04-07T19:16:19.161556",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:19.138065",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "0    10\n",
+       "Name: DIRECTOR_facebook_likes, dtype: object"
+      ]
+     },
+     "execution_count": 19,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "alex['DIRECTOR_facebook_likes'].mode()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 20,
+   "id": "d9d143be",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:19.191069Z",
+     "iopub.status.busy": "2025-04-07T19:16:19.190613Z",
+     "iopub.status.idle": "2025-04-07T19:16:19.197244Z",
+     "shell.execute_reply": "2025-04-07T19:16:19.195893Z"
+    },
+    "papermill": {
+     "duration": 0.0242,
+     "end_time": "2025-04-07T19:16:19.199324",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:19.175124",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "alex['DIRECTOR_facebook_likes'] = alex['DIRECTOR_facebook_likes'].fillna(df['DIRECTOR_facebook_likes'].mode())"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 21,
+   "id": "b5a66687",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:19.228042Z",
+     "iopub.status.busy": "2025-04-07T19:16:19.227558Z",
+     "iopub.status.idle": "2025-04-07T19:16:19.245844Z",
+     "shell.execute_reply": "2025-04-07T19:16:19.244580Z"
+    },
+    "papermill": {
+     "duration": 0.035426,
+     "end_time": "2025-04-07T19:16:19.248000",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:19.212574",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "/usr/local/lib/python3.10/dist-packages/pandas/io/formats/format.py:1458: RuntimeWarning: invalid value encountered in greater\n",
+      "  has_large_values = (abs_vals > 1e6).any()\n",
+      "/usr/local/lib/python3.10/dist-packages/pandas/io/formats/format.py:1459: RuntimeWarning: invalid value encountered in less\n",
+      "  has_small_values = ((abs_vals < 10 ** (-self.digits)) & (abs_vals > 0)).any()\n",
+      "/usr/local/lib/python3.10/dist-packages/pandas/io/formats/format.py:1459: RuntimeWarning: invalid value encountered in greater\n",
+      "  has_small_values = ((abs_vals < 10 ** (-self.digits)) & (abs_vals > 0)).any()\n"
+     ]
+    },
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>movie_title</th>\n",
+       "      <th>num_critic_for_reviews</th>\n",
+       "      <th>duration</th>\n",
+       "      <th>DIRECTOR_facebook_likes</th>\n",
+       "      <th>actor_3_facebook_likes</th>\n",
+       "      <th>ACTOR_1_facebook_likes</th>\n",
+       "      <th>gross</th>\n",
+       "      <th>num_voted_users</th>\n",
+       "      <th>Cast_Total_facebook_likes</th>\n",
+       "      <th>facenumber_in_poster</th>\n",
+       "      <th>num_user_for_reviews</th>\n",
+       "      <th>budget</th>\n",
+       "      <th>title_year</th>\n",
+       "      <th>ACTOR_2_facebook_likes</th>\n",
+       "      <th>imdb_score</th>\n",
+       "      <th>title_year.1</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>Avatar?ÿ</td>\n",
+       "      <td>723</td>\n",
+       "      <td>178.0</td>\n",
+       "      <td>10</td>\n",
+       "      <td>855</td>\n",
+       "      <td>1000</td>\n",
+       "      <td>760505847</td>\n",
+       "      <td>886204.0</td>\n",
+       "      <td>4834.0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>3054</td>\n",
+       "      <td>237000000</td>\n",
+       "      <td>2009</td>\n",
+       "      <td>936.0</td>\n",
+       "      <td>7.9</td>\n",
+       "      <td>2009.0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>Pirates of the Caribbean: At World's End?ÿ</td>\n",
+       "      <td>302</td>\n",
+       "      <td>151.0</td>\n",
+       "      <td>563</td>\n",
+       "      <td>1000</td>\n",
+       "      <td>40000</td>\n",
+       "      <td>309404152</td>\n",
+       "      <td>471220.0</td>\n",
+       "      <td>48350.0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>1238</td>\n",
+       "      <td>300000000</td>\n",
+       "      <td>2007</td>\n",
+       "      <td>5000.0</td>\n",
+       "      <td>7.1</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>Spectre?ÿ</td>\n",
+       "      <td>602</td>\n",
+       "      <td>148.0</td>\n",
+       "      <td>20</td>\n",
+       "      <td>161</td>\n",
+       "      <td>11000</td>\n",
+       "      <td>200074175</td>\n",
+       "      <td>275868.0</td>\n",
+       "      <td>11700.0</td>\n",
+       "      <td>1.0</td>\n",
+       "      <td>994</td>\n",
+       "      <td>245000000</td>\n",
+       "      <td>2015</td>\n",
+       "      <td>393.0</td>\n",
+       "      <td>6.8</td>\n",
+       "      <td>2015.0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>The Dark Knight Rises?ÿ</td>\n",
+       "      <td>813</td>\n",
+       "      <td>151.0</td>\n",
+       "      <td>22000</td>\n",
+       "      <td>23000</td>\n",
+       "      <td>27000</td>\n",
+       "      <td>448130642</td>\n",
+       "      <td>1144337.0</td>\n",
+       "      <td>106759.0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>2701</td>\n",
+       "      <td>250000000</td>\n",
+       "      <td>2012</td>\n",
+       "      <td>23000.0</td>\n",
+       "      <td>8.5</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>John Carter?ÿ</td>\n",
+       "      <td>462</td>\n",
+       "      <td>132.0</td>\n",
+       "      <td>\"475\"</td>\n",
+       "      <td>530</td>\n",
+       "      <td>640</td>\n",
+       "      <td>73058679</td>\n",
+       "      <td>212204.0</td>\n",
+       "      <td>1873.0</td>\n",
+       "      <td>1.0</td>\n",
+       "      <td>738</td>\n",
+       "      <td>263700000</td>\n",
+       "      <td>2012</td>\n",
+       "      <td>632.0</td>\n",
+       "      <td>6.6</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "                                  movie_title  num_critic_for_reviews  \\\n",
+       "0                                    Avatar?ÿ                     723   \n",
+       "1  Pirates of the Caribbean: At World's End?ÿ                     302   \n",
+       "2                                   Spectre?ÿ                     602   \n",
+       "3                     The Dark Knight Rises?ÿ                     813   \n",
+       "4                               John Carter?ÿ                     462   \n",
+       "\n",
+       "   duration DIRECTOR_facebook_likes  actor_3_facebook_likes  \\\n",
+       "0     178.0                      10                     855   \n",
+       "1     151.0                     563                    1000   \n",
+       "2     148.0                      20                     161   \n",
+       "3     151.0                   22000                   23000   \n",
+       "4     132.0                   \"475\"                     530   \n",
+       "\n",
+       "   ACTOR_1_facebook_likes      gross  num_voted_users  \\\n",
+       "0                    1000  760505847         886204.0   \n",
+       "1                   40000  309404152         471220.0   \n",
+       "2                   11000  200074175         275868.0   \n",
+       "3                   27000  448130642        1144337.0   \n",
+       "4                     640   73058679         212204.0   \n",
+       "\n",
+       "   Cast_Total_facebook_likes  facenumber_in_poster  num_user_for_reviews  \\\n",
+       "0                     4834.0                   NaN                  3054   \n",
+       "1                    48350.0                   NaN                  1238   \n",
+       "2                    11700.0                   1.0                   994   \n",
+       "3                   106759.0                   NaN                  2701   \n",
+       "4                     1873.0                   1.0                   738   \n",
+       "\n",
+       "      budget  title_year  ACTOR_2_facebook_likes  imdb_score  title_year.1  \n",
+       "0  237000000        2009                   936.0         7.9        2009.0  \n",
+       "1  300000000        2007                  5000.0         7.1           NaN  \n",
+       "2  245000000        2015                   393.0         6.8        2015.0  \n",
+       "3  250000000        2012                 23000.0         8.5           NaN  \n",
+       "4  263700000        2012                   632.0         6.6           NaN  "
+      ]
+     },
+     "execution_count": 21,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "alex.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 22,
+   "id": "99b8619d",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:19.277394Z",
+     "iopub.status.busy": "2025-04-07T19:16:19.277045Z",
+     "iopub.status.idle": "2025-04-07T19:16:19.283767Z",
+     "shell.execute_reply": "2025-04-07T19:16:19.282557Z"
+    },
+    "papermill": {
+     "duration": 0.022872,
+     "end_time": "2025-04-07T19:16:19.285399",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:19.262527",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "2.111111111111111"
+      ]
+     },
+     "execution_count": 22,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "alex['facenumber_in_poster'].mean()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 23,
+   "id": "39a181b6",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:19.315393Z",
+     "iopub.status.busy": "2025-04-07T19:16:19.315055Z",
+     "iopub.status.idle": "2025-04-07T19:16:19.321138Z",
+     "shell.execute_reply": "2025-04-07T19:16:19.319942Z"
+    },
+    "papermill": {
+     "duration": 0.023327,
+     "end_time": "2025-04-07T19:16:19.322762",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:19.299435",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "2.0"
+      ]
+     },
+     "execution_count": 23,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "alex['facenumber_in_poster'].median()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 24,
+   "id": "8b2314f3",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:19.351736Z",
+     "iopub.status.busy": "2025-04-07T19:16:19.351310Z",
+     "iopub.status.idle": "2025-04-07T19:16:19.357159Z",
+     "shell.execute_reply": "2025-04-07T19:16:19.355880Z"
+    },
+    "papermill": {
+     "duration": 0.022733,
+     "end_time": "2025-04-07T19:16:19.359315",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:19.336582",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "alex['facenumber_in_poster'] = alex['facenumber_in_poster'].fillna(df['facenumber_in_poster'].mean())"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 25,
+   "id": "9e06f4ae",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:19.389304Z",
+     "iopub.status.busy": "2025-04-07T19:16:19.388915Z",
+     "iopub.status.idle": "2025-04-07T19:16:19.414414Z",
+     "shell.execute_reply": "2025-04-07T19:16:19.412921Z"
+    },
+    "papermill": {
+     "duration": 0.042913,
+     "end_time": "2025-04-07T19:16:19.416527",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:19.373614",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "<class 'pandas.core.frame.DataFrame'>\n",
+      "RangeIndex: 14 entries, 0 to 13\n",
+      "Data columns (total 16 columns):\n",
+      " #   Column                     Non-Null Count  Dtype  \n",
+      "---  ------                     --------------  -----  \n",
+      " 0   movie_title                14 non-null     object \n",
+      " 1   num_critic_for_reviews     14 non-null     int64  \n",
+      " 2   duration                   14 non-null     float64\n",
+      " 3   DIRECTOR_facebook_likes    12 non-null     object \n",
+      " 4   actor_3_facebook_likes     14 non-null     int64  \n",
+      " 5   ACTOR_1_facebook_likes     14 non-null     int64  \n",
+      " 6   gross                      14 non-null     int64  \n",
+      " 7   num_voted_users            13 non-null     float64\n",
+      " 8   Cast_Total_facebook_likes  12 non-null     float64\n",
+      " 9   facenumber_in_poster       14 non-null     float64\n",
+      " 10  num_user_for_reviews       14 non-null     int64  \n",
+      " 11  budget                     14 non-null     int64  \n",
+      " 12  title_year                 14 non-null     int64  \n",
+      " 13  ACTOR_2_facebook_likes     13 non-null     float64\n",
+      " 14  imdb_score                 14 non-null     float64\n",
+      " 15  title_year.1               7 non-null      float64\n",
+      "dtypes: float64(7), int64(7), object(2)\n",
+      "memory usage: 1.9+ KB\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "/usr/local/lib/python3.10/dist-packages/pandas/io/formats/format.py:1458: RuntimeWarning: invalid value encountered in greater\n",
+      "  has_large_values = (abs_vals > 1e6).any()\n",
+      "/usr/local/lib/python3.10/dist-packages/pandas/io/formats/format.py:1459: RuntimeWarning: invalid value encountered in less\n",
+      "  has_small_values = ((abs_vals < 10 ** (-self.digits)) & (abs_vals > 0)).any()\n",
+      "/usr/local/lib/python3.10/dist-packages/pandas/io/formats/format.py:1459: RuntimeWarning: invalid value encountered in greater\n",
+      "  has_small_values = ((abs_vals < 10 ** (-self.digits)) & (abs_vals > 0)).any()\n"
+     ]
+    },
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>movie_title</th>\n",
+       "      <th>num_critic_for_reviews</th>\n",
+       "      <th>duration</th>\n",
+       "      <th>DIRECTOR_facebook_likes</th>\n",
+       "      <th>actor_3_facebook_likes</th>\n",
+       "      <th>ACTOR_1_facebook_likes</th>\n",
+       "      <th>gross</th>\n",
+       "      <th>num_voted_users</th>\n",
+       "      <th>Cast_Total_facebook_likes</th>\n",
+       "      <th>facenumber_in_poster</th>\n",
+       "      <th>num_user_for_reviews</th>\n",
+       "      <th>budget</th>\n",
+       "      <th>title_year</th>\n",
+       "      <th>ACTOR_2_facebook_likes</th>\n",
+       "      <th>imdb_score</th>\n",
+       "      <th>title_year.1</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>Avatar?ÿ</td>\n",
+       "      <td>723</td>\n",
+       "      <td>178.0</td>\n",
+       "      <td>10</td>\n",
+       "      <td>855</td>\n",
+       "      <td>1000</td>\n",
+       "      <td>760505847</td>\n",
+       "      <td>886204.0</td>\n",
+       "      <td>4834.0</td>\n",
+       "      <td>2.111111</td>\n",
+       "      <td>3054</td>\n",
+       "      <td>237000000</td>\n",
+       "      <td>2009</td>\n",
+       "      <td>936.0</td>\n",
+       "      <td>7.9</td>\n",
+       "      <td>2009.0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>Pirates of the Caribbean: At World's End?ÿ</td>\n",
+       "      <td>302</td>\n",
+       "      <td>151.0</td>\n",
+       "      <td>563</td>\n",
+       "      <td>1000</td>\n",
+       "      <td>40000</td>\n",
+       "      <td>309404152</td>\n",
+       "      <td>471220.0</td>\n",
+       "      <td>48350.0</td>\n",
+       "      <td>2.111111</td>\n",
+       "      <td>1238</td>\n",
+       "      <td>300000000</td>\n",
+       "      <td>2007</td>\n",
+       "      <td>5000.0</td>\n",
+       "      <td>7.1</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>Spectre?ÿ</td>\n",
+       "      <td>602</td>\n",
+       "      <td>148.0</td>\n",
+       "      <td>20</td>\n",
+       "      <td>161</td>\n",
+       "      <td>11000</td>\n",
+       "      <td>200074175</td>\n",
+       "      <td>275868.0</td>\n",
+       "      <td>11700.0</td>\n",
+       "      <td>1.000000</td>\n",
+       "      <td>994</td>\n",
+       "      <td>245000000</td>\n",
+       "      <td>2015</td>\n",
+       "      <td>393.0</td>\n",
+       "      <td>6.8</td>\n",
+       "      <td>2015.0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>The Dark Knight Rises?ÿ</td>\n",
+       "      <td>813</td>\n",
+       "      <td>151.0</td>\n",
+       "      <td>22000</td>\n",
+       "      <td>23000</td>\n",
+       "      <td>27000</td>\n",
+       "      <td>448130642</td>\n",
+       "      <td>1144337.0</td>\n",
+       "      <td>106759.0</td>\n",
+       "      <td>2.111111</td>\n",
+       "      <td>2701</td>\n",
+       "      <td>250000000</td>\n",
+       "      <td>2012</td>\n",
+       "      <td>23000.0</td>\n",
+       "      <td>8.5</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>John Carter?ÿ</td>\n",
+       "      <td>462</td>\n",
+       "      <td>132.0</td>\n",
+       "      <td>\"475\"</td>\n",
+       "      <td>530</td>\n",
+       "      <td>640</td>\n",
+       "      <td>73058679</td>\n",
+       "      <td>212204.0</td>\n",
+       "      <td>1873.0</td>\n",
+       "      <td>1.000000</td>\n",
+       "      <td>738</td>\n",
+       "      <td>263700000</td>\n",
+       "      <td>2012</td>\n",
+       "      <td>632.0</td>\n",
+       "      <td>6.6</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "                                  movie_title  num_critic_for_reviews  \\\n",
+       "0                                    Avatar?ÿ                     723   \n",
+       "1  Pirates of the Caribbean: At World's End?ÿ                     302   \n",
+       "2                                   Spectre?ÿ                     602   \n",
+       "3                     The Dark Knight Rises?ÿ                     813   \n",
+       "4                               John Carter?ÿ                     462   \n",
+       "\n",
+       "   duration DIRECTOR_facebook_likes  actor_3_facebook_likes  \\\n",
+       "0     178.0                      10                     855   \n",
+       "1     151.0                     563                    1000   \n",
+       "2     148.0                      20                     161   \n",
+       "3     151.0                   22000                   23000   \n",
+       "4     132.0                   \"475\"                     530   \n",
+       "\n",
+       "   ACTOR_1_facebook_likes      gross  num_voted_users  \\\n",
+       "0                    1000  760505847         886204.0   \n",
+       "1                   40000  309404152         471220.0   \n",
+       "2                   11000  200074175         275868.0   \n",
+       "3                   27000  448130642        1144337.0   \n",
+       "4                     640   73058679         212204.0   \n",
+       "\n",
+       "   Cast_Total_facebook_likes  facenumber_in_poster  num_user_for_reviews  \\\n",
+       "0                     4834.0              2.111111                  3054   \n",
+       "1                    48350.0              2.111111                  1238   \n",
+       "2                    11700.0              1.000000                   994   \n",
+       "3                   106759.0              2.111111                  2701   \n",
+       "4                     1873.0              1.000000                   738   \n",
+       "\n",
+       "      budget  title_year  ACTOR_2_facebook_likes  imdb_score  title_year.1  \n",
+       "0  237000000        2009                   936.0         7.9        2009.0  \n",
+       "1  300000000        2007                  5000.0         7.1           NaN  \n",
+       "2  245000000        2015                   393.0         6.8        2015.0  \n",
+       "3  250000000        2012                 23000.0         8.5           NaN  \n",
+       "4  263700000        2012                   632.0         6.6           NaN  "
+      ]
+     },
+     "execution_count": 25,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "alex.info()\n",
+    "alex.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 26,
+   "id": "e27fb7d1",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:19.503424Z",
+     "iopub.status.busy": "2025-04-07T19:16:19.503077Z",
+     "iopub.status.idle": "2025-04-07T19:16:19.509921Z",
+     "shell.execute_reply": "2025-04-07T19:16:19.508851Z"
+    },
+    "papermill": {
+     "duration": 0.023997,
+     "end_time": "2025-04-07T19:16:19.511794",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:19.487797",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "2011.142857142857"
+      ]
+     },
+     "execution_count": 26,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "alex['title_year.1'].mean()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 27,
+   "id": "93450424",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:19.542471Z",
+     "iopub.status.busy": "2025-04-07T19:16:19.542127Z",
+     "iopub.status.idle": "2025-04-07T19:16:19.548050Z",
+     "shell.execute_reply": "2025-04-07T19:16:19.546932Z"
+    },
+    "papermill": {
+     "duration": 0.023382,
+     "end_time": "2025-04-07T19:16:19.549911",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:19.526529",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "2009.0"
+      ]
+     },
+     "execution_count": 27,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "alex['title_year.1'].median()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 28,
+   "id": "effd46d7",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:19.580495Z",
+     "iopub.status.busy": "2025-04-07T19:16:19.580133Z",
+     "iopub.status.idle": "2025-04-07T19:16:19.585752Z",
+     "shell.execute_reply": "2025-04-07T19:16:19.584532Z"
+    },
+    "papermill": {
+     "duration": 0.02314,
+     "end_time": "2025-04-07T19:16:19.587657",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:19.564517",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "alex['title_year.1'] = alex['title_year.1'].fillna(df['title_year.1'].mean())"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 29,
+   "id": "767ff779",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:19.618924Z",
+     "iopub.status.busy": "2025-04-07T19:16:19.618428Z",
+     "iopub.status.idle": "2025-04-07T19:16:19.635398Z",
+     "shell.execute_reply": "2025-04-07T19:16:19.634320Z"
+    },
+    "papermill": {
+     "duration": 0.034646,
+     "end_time": "2025-04-07T19:16:19.637418",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:19.602772",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>movie_title</th>\n",
+       "      <th>num_critic_for_reviews</th>\n",
+       "      <th>duration</th>\n",
+       "      <th>DIRECTOR_facebook_likes</th>\n",
+       "      <th>actor_3_facebook_likes</th>\n",
+       "      <th>ACTOR_1_facebook_likes</th>\n",
+       "      <th>gross</th>\n",
+       "      <th>num_voted_users</th>\n",
+       "      <th>Cast_Total_facebook_likes</th>\n",
+       "      <th>facenumber_in_poster</th>\n",
+       "      <th>num_user_for_reviews</th>\n",
+       "      <th>budget</th>\n",
+       "      <th>title_year</th>\n",
+       "      <th>ACTOR_2_facebook_likes</th>\n",
+       "      <th>imdb_score</th>\n",
+       "      <th>title_year.1</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>Avatar?ÿ</td>\n",
+       "      <td>723</td>\n",
+       "      <td>178.0</td>\n",
+       "      <td>10</td>\n",
+       "      <td>855</td>\n",
+       "      <td>1000</td>\n",
+       "      <td>760505847</td>\n",
+       "      <td>886204.0</td>\n",
+       "      <td>4834.0</td>\n",
+       "      <td>2.111111</td>\n",
+       "      <td>3054</td>\n",
+       "      <td>237000000</td>\n",
+       "      <td>2009</td>\n",
+       "      <td>936.0</td>\n",
+       "      <td>7.9</td>\n",
+       "      <td>2009.000000</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>Pirates of the Caribbean: At World's End?ÿ</td>\n",
+       "      <td>302</td>\n",
+       "      <td>151.0</td>\n",
+       "      <td>563</td>\n",
+       "      <td>1000</td>\n",
+       "      <td>40000</td>\n",
+       "      <td>309404152</td>\n",
+       "      <td>471220.0</td>\n",
+       "      <td>48350.0</td>\n",
+       "      <td>2.111111</td>\n",
+       "      <td>1238</td>\n",
+       "      <td>300000000</td>\n",
+       "      <td>2007</td>\n",
+       "      <td>5000.0</td>\n",
+       "      <td>7.1</td>\n",
+       "      <td>2011.142857</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>Spectre?ÿ</td>\n",
+       "      <td>602</td>\n",
+       "      <td>148.0</td>\n",
+       "      <td>20</td>\n",
+       "      <td>161</td>\n",
+       "      <td>11000</td>\n",
+       "      <td>200074175</td>\n",
+       "      <td>275868.0</td>\n",
+       "      <td>11700.0</td>\n",
+       "      <td>1.000000</td>\n",
+       "      <td>994</td>\n",
+       "      <td>245000000</td>\n",
+       "      <td>2015</td>\n",
+       "      <td>393.0</td>\n",
+       "      <td>6.8</td>\n",
+       "      <td>2015.000000</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>The Dark Knight Rises?ÿ</td>\n",
+       "      <td>813</td>\n",
+       "      <td>151.0</td>\n",
+       "      <td>22000</td>\n",
+       "      <td>23000</td>\n",
+       "      <td>27000</td>\n",
+       "      <td>448130642</td>\n",
+       "      <td>1144337.0</td>\n",
+       "      <td>106759.0</td>\n",
+       "      <td>2.111111</td>\n",
+       "      <td>2701</td>\n",
+       "      <td>250000000</td>\n",
+       "      <td>2012</td>\n",
+       "      <td>23000.0</td>\n",
+       "      <td>8.5</td>\n",
+       "      <td>2011.142857</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>John Carter?ÿ</td>\n",
+       "      <td>462</td>\n",
+       "      <td>132.0</td>\n",
+       "      <td>\"475\"</td>\n",
+       "      <td>530</td>\n",
+       "      <td>640</td>\n",
+       "      <td>73058679</td>\n",
+       "      <td>212204.0</td>\n",
+       "      <td>1873.0</td>\n",
+       "      <td>1.000000</td>\n",
+       "      <td>738</td>\n",
+       "      <td>263700000</td>\n",
+       "      <td>2012</td>\n",
+       "      <td>632.0</td>\n",
+       "      <td>6.6</td>\n",
+       "      <td>2011.142857</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "                                  movie_title  num_critic_for_reviews  \\\n",
+       "0                                    Avatar?ÿ                     723   \n",
+       "1  Pirates of the Caribbean: At World's End?ÿ                     302   \n",
+       "2                                   Spectre?ÿ                     602   \n",
+       "3                     The Dark Knight Rises?ÿ                     813   \n",
+       "4                               John Carter?ÿ                     462   \n",
+       "\n",
+       "   duration DIRECTOR_facebook_likes  actor_3_facebook_likes  \\\n",
+       "0     178.0                      10                     855   \n",
+       "1     151.0                     563                    1000   \n",
+       "2     148.0                      20                     161   \n",
+       "3     151.0                   22000                   23000   \n",
+       "4     132.0                   \"475\"                     530   \n",
+       "\n",
+       "   ACTOR_1_facebook_likes      gross  num_voted_users  \\\n",
+       "0                    1000  760505847         886204.0   \n",
+       "1                   40000  309404152         471220.0   \n",
+       "2                   11000  200074175         275868.0   \n",
+       "3                   27000  448130642        1144337.0   \n",
+       "4                     640   73058679         212204.0   \n",
+       "\n",
+       "   Cast_Total_facebook_likes  facenumber_in_poster  num_user_for_reviews  \\\n",
+       "0                     4834.0              2.111111                  3054   \n",
+       "1                    48350.0              2.111111                  1238   \n",
+       "2                    11700.0              1.000000                   994   \n",
+       "3                   106759.0              2.111111                  2701   \n",
+       "4                     1873.0              1.000000                   738   \n",
+       "\n",
+       "      budget  title_year  ACTOR_2_facebook_likes  imdb_score  title_year.1  \n",
+       "0  237000000        2009                   936.0         7.9   2009.000000  \n",
+       "1  300000000        2007                  5000.0         7.1   2011.142857  \n",
+       "2  245000000        2015                   393.0         6.8   2015.000000  \n",
+       "3  250000000        2012                 23000.0         8.5   2011.142857  \n",
+       "4  263700000        2012                   632.0         6.6   2011.142857  "
+      ]
+     },
+     "execution_count": 29,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 30,
+   "id": "8d6bdb04",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:19.669535Z",
+     "iopub.status.busy": "2025-04-07T19:16:19.669143Z",
+     "iopub.status.idle": "2025-04-07T19:16:19.682275Z",
+     "shell.execute_reply": "2025-04-07T19:16:19.680856Z"
+    },
+    "papermill": {
+     "duration": 0.031403,
+     "end_time": "2025-04-07T19:16:19.684323",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:19.652920",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "<class 'pandas.core.frame.DataFrame'>\n",
+      "RangeIndex: 14 entries, 0 to 13\n",
+      "Data columns (total 16 columns):\n",
+      " #   Column                     Non-Null Count  Dtype  \n",
+      "---  ------                     --------------  -----  \n",
+      " 0   movie_title                14 non-null     object \n",
+      " 1   num_critic_for_reviews     14 non-null     int64  \n",
+      " 2   duration                   14 non-null     float64\n",
+      " 3   DIRECTOR_facebook_likes    12 non-null     object \n",
+      " 4   actor_3_facebook_likes     14 non-null     int64  \n",
+      " 5   ACTOR_1_facebook_likes     14 non-null     int64  \n",
+      " 6   gross                      14 non-null     int64  \n",
+      " 7   num_voted_users            13 non-null     float64\n",
+      " 8   Cast_Total_facebook_likes  12 non-null     float64\n",
+      " 9   facenumber_in_poster       14 non-null     float64\n",
+      " 10  num_user_for_reviews       14 non-null     int64  \n",
+      " 11  budget                     14 non-null     int64  \n",
+      " 12  title_year                 14 non-null     int64  \n",
+      " 13  ACTOR_2_facebook_likes     13 non-null     float64\n",
+      " 14  imdb_score                 14 non-null     float64\n",
+      " 15  title_year.1               14 non-null     float64\n",
+      "dtypes: float64(7), int64(7), object(2)\n",
+      "memory usage: 1.9+ KB\n"
+     ]
+    }
+   ],
+   "source": [
+    "df.info()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 31,
+   "id": "4000180a",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:19.716026Z",
+     "iopub.status.busy": "2025-04-07T19:16:19.715546Z",
+     "iopub.status.idle": "2025-04-07T19:16:19.724074Z",
+     "shell.execute_reply": "2025-04-07T19:16:19.722992Z"
+    },
+    "papermill": {
+     "duration": 0.026354,
+     "end_time": "2025-04-07T19:16:19.726045",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:19.699691",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "movie_title                  0\n",
+       "num_critic_for_reviews       0\n",
+       "duration                     0\n",
+       "DIRECTOR_facebook_likes      2\n",
+       "actor_3_facebook_likes       0\n",
+       "ACTOR_1_facebook_likes       0\n",
+       "gross                        0\n",
+       "num_voted_users              1\n",
+       "Cast_Total_facebook_likes    2\n",
+       "facenumber_in_poster         0\n",
+       "num_user_for_reviews         0\n",
+       "budget                       0\n",
+       "title_year                   0\n",
+       "ACTOR_2_facebook_likes       1\n",
+       "imdb_score                   0\n",
+       "title_year.1                 0\n",
+       "dtype: int64"
+      ]
+     },
+     "execution_count": 31,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.isnull().sum()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 32,
+   "id": "09f77187",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:19.758991Z",
+     "iopub.status.busy": "2025-04-07T19:16:19.758543Z",
+     "iopub.status.idle": "2025-04-07T19:16:19.766701Z",
+     "shell.execute_reply": "2025-04-07T19:16:19.765632Z"
+    },
+    "papermill": {
+     "duration": 0.027002,
+     "end_time": "2025-04-07T19:16:19.768400",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:19.741398",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "movie_title                  0\n",
+       "num_critic_for_reviews       0\n",
+       "duration                     0\n",
+       "DIRECTOR_facebook_likes      2\n",
+       "actor_3_facebook_likes       0\n",
+       "ACTOR_1_facebook_likes       0\n",
+       "gross                        0\n",
+       "num_voted_users              1\n",
+       "Cast_Total_facebook_likes    2\n",
+       "facenumber_in_poster         0\n",
+       "num_user_for_reviews         0\n",
+       "budget                       0\n",
+       "title_year                   0\n",
+       "ACTOR_2_facebook_likes       1\n",
+       "imdb_score                   0\n",
+       "title_year.1                 0\n",
+       "dtype: int64"
+      ]
+     },
+     "execution_count": 32,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.isnull().sum()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 33,
+   "id": "9174033c",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:19.802108Z",
+     "iopub.status.busy": "2025-04-07T19:16:19.801645Z",
+     "iopub.status.idle": "2025-04-07T19:16:19.821367Z",
+     "shell.execute_reply": "2025-04-07T19:16:19.820153Z"
+    },
+    "papermill": {
+     "duration": 0.037769,
+     "end_time": "2025-04-07T19:16:19.823272",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:19.785503",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>movie_title</th>\n",
+       "      <th>num_critic_for_reviews</th>\n",
+       "      <th>duration</th>\n",
+       "      <th>DIRECTOR_facebook_likes</th>\n",
+       "      <th>actor_3_facebook_likes</th>\n",
+       "      <th>ACTOR_1_facebook_likes</th>\n",
+       "      <th>gross</th>\n",
+       "      <th>num_voted_users</th>\n",
+       "      <th>Cast_Total_facebook_likes</th>\n",
+       "      <th>facenumber_in_poster</th>\n",
+       "      <th>num_user_for_reviews</th>\n",
+       "      <th>budget</th>\n",
+       "      <th>title_year</th>\n",
+       "      <th>ACTOR_2_facebook_likes</th>\n",
+       "      <th>imdb_score</th>\n",
+       "      <th>title_year.1</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>Avatar?ÿ</td>\n",
+       "      <td>723</td>\n",
+       "      <td>178.0</td>\n",
+       "      <td>10</td>\n",
+       "      <td>855</td>\n",
+       "      <td>1000</td>\n",
+       "      <td>760505847</td>\n",
+       "      <td>886204.0</td>\n",
+       "      <td>4834.0</td>\n",
+       "      <td>2.111111</td>\n",
+       "      <td>3054</td>\n",
+       "      <td>237000000</td>\n",
+       "      <td>2009</td>\n",
+       "      <td>936.0</td>\n",
+       "      <td>7.9</td>\n",
+       "      <td>2009.000000</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>Pirates of the Caribbean: At World's End?ÿ</td>\n",
+       "      <td>302</td>\n",
+       "      <td>151.0</td>\n",
+       "      <td>563</td>\n",
+       "      <td>1000</td>\n",
+       "      <td>40000</td>\n",
+       "      <td>309404152</td>\n",
+       "      <td>471220.0</td>\n",
+       "      <td>48350.0</td>\n",
+       "      <td>2.111111</td>\n",
+       "      <td>1238</td>\n",
+       "      <td>300000000</td>\n",
+       "      <td>2007</td>\n",
+       "      <td>5000.0</td>\n",
+       "      <td>7.1</td>\n",
+       "      <td>2011.142857</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>Spectre?ÿ</td>\n",
+       "      <td>602</td>\n",
+       "      <td>148.0</td>\n",
+       "      <td>20</td>\n",
+       "      <td>161</td>\n",
+       "      <td>11000</td>\n",
+       "      <td>200074175</td>\n",
+       "      <td>275868.0</td>\n",
+       "      <td>11700.0</td>\n",
+       "      <td>1.000000</td>\n",
+       "      <td>994</td>\n",
+       "      <td>245000000</td>\n",
+       "      <td>2015</td>\n",
+       "      <td>393.0</td>\n",
+       "      <td>6.8</td>\n",
+       "      <td>2015.000000</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>The Dark Knight Rises?ÿ</td>\n",
+       "      <td>813</td>\n",
+       "      <td>151.0</td>\n",
+       "      <td>22000</td>\n",
+       "      <td>23000</td>\n",
+       "      <td>27000</td>\n",
+       "      <td>448130642</td>\n",
+       "      <td>1144337.0</td>\n",
+       "      <td>106759.0</td>\n",
+       "      <td>2.111111</td>\n",
+       "      <td>2701</td>\n",
+       "      <td>250000000</td>\n",
+       "      <td>2012</td>\n",
+       "      <td>23000.0</td>\n",
+       "      <td>8.5</td>\n",
+       "      <td>2011.142857</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>John Carter?ÿ</td>\n",
+       "      <td>462</td>\n",
+       "      <td>132.0</td>\n",
+       "      <td>\"475\"</td>\n",
+       "      <td>530</td>\n",
+       "      <td>640</td>\n",
+       "      <td>73058679</td>\n",
+       "      <td>212204.0</td>\n",
+       "      <td>1873.0</td>\n",
+       "      <td>1.000000</td>\n",
+       "      <td>738</td>\n",
+       "      <td>263700000</td>\n",
+       "      <td>2012</td>\n",
+       "      <td>632.0</td>\n",
+       "      <td>6.6</td>\n",
+       "      <td>2011.142857</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "                                  movie_title  num_critic_for_reviews  \\\n",
+       "0                                    Avatar?ÿ                     723   \n",
+       "1  Pirates of the Caribbean: At World's End?ÿ                     302   \n",
+       "2                                   Spectre?ÿ                     602   \n",
+       "3                     The Dark Knight Rises?ÿ                     813   \n",
+       "4                               John Carter?ÿ                     462   \n",
+       "\n",
+       "   duration DIRECTOR_facebook_likes  actor_3_facebook_likes  \\\n",
+       "0     178.0                      10                     855   \n",
+       "1     151.0                     563                    1000   \n",
+       "2     148.0                      20                     161   \n",
+       "3     151.0                   22000                   23000   \n",
+       "4     132.0                   \"475\"                     530   \n",
+       "\n",
+       "   ACTOR_1_facebook_likes      gross  num_voted_users  \\\n",
+       "0                    1000  760505847         886204.0   \n",
+       "1                   40000  309404152         471220.0   \n",
+       "2                   11000  200074175         275868.0   \n",
+       "3                   27000  448130642        1144337.0   \n",
+       "4                     640   73058679         212204.0   \n",
+       "\n",
+       "   Cast_Total_facebook_likes  facenumber_in_poster  num_user_for_reviews  \\\n",
+       "0                     4834.0              2.111111                  3054   \n",
+       "1                    48350.0              2.111111                  1238   \n",
+       "2                    11700.0              1.000000                   994   \n",
+       "3                   106759.0              2.111111                  2701   \n",
+       "4                     1873.0              1.000000                   738   \n",
+       "\n",
+       "      budget  title_year  ACTOR_2_facebook_likes  imdb_score  title_year.1  \n",
+       "0  237000000        2009                   936.0         7.9   2009.000000  \n",
+       "1  300000000        2007                  5000.0         7.1   2011.142857  \n",
+       "2  245000000        2015                   393.0         6.8   2015.000000  \n",
+       "3  250000000        2012                 23000.0         8.5   2011.142857  \n",
+       "4  263700000        2012                   632.0         6.6   2011.142857  "
+      ]
+     },
+     "execution_count": 33,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 34,
+   "id": "5525d4a7",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:19.855462Z",
+     "iopub.status.busy": "2025-04-07T19:16:19.855109Z",
+     "iopub.status.idle": "2025-04-07T19:16:19.876752Z",
+     "shell.execute_reply": "2025-04-07T19:16:19.875628Z"
+    },
+    "papermill": {
+     "duration": 0.040084,
+     "end_time": "2025-04-07T19:16:19.879097",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:19.839013",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>movie_title</th>\n",
+       "      <th>num_critic_for_reviews</th>\n",
+       "      <th>duration</th>\n",
+       "      <th>DIRECTOR_facebook_likes</th>\n",
+       "      <th>actor_3_facebook_likes</th>\n",
+       "      <th>ACTOR_1_facebook_likes</th>\n",
+       "      <th>gross</th>\n",
+       "      <th>num_voted_users</th>\n",
+       "      <th>Cast_Total_facebook_likes</th>\n",
+       "      <th>facenumber_in_poster</th>\n",
+       "      <th>num_user_for_reviews</th>\n",
+       "      <th>budget</th>\n",
+       "      <th>title_year</th>\n",
+       "      <th>ACTOR_2_facebook_likes</th>\n",
+       "      <th>imdb_score</th>\n",
+       "      <th>title_year.1</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>5</th>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>6</th>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>True</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>7</th>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>8</th>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>9</th>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>10</th>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>True</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>True</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>True</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>11</th>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>True</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>True</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>12</th>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>13</th>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "    movie_title  num_critic_for_reviews  duration  DIRECTOR_facebook_likes  \\\n",
+       "0         False                   False     False                    False   \n",
+       "1         False                   False     False                    False   \n",
+       "2         False                   False     False                    False   \n",
+       "3         False                   False     False                    False   \n",
+       "4         False                   False     False                    False   \n",
+       "5         False                   False     False                    False   \n",
+       "6         False                   False     False                    False   \n",
+       "7         False                   False     False                    False   \n",
+       "8         False                   False     False                    False   \n",
+       "9         False                   False     False                    False   \n",
+       "10        False                   False     False                     True   \n",
+       "11        False                   False     False                     True   \n",
+       "12        False                   False     False                    False   \n",
+       "13        False                   False     False                    False   \n",
+       "\n",
+       "    actor_3_facebook_likes  ACTOR_1_facebook_likes  gross  num_voted_users  \\\n",
+       "0                    False                   False  False            False   \n",
+       "1                    False                   False  False            False   \n",
+       "2                    False                   False  False            False   \n",
+       "3                    False                   False  False            False   \n",
+       "4                    False                   False  False            False   \n",
+       "5                    False                   False  False            False   \n",
+       "6                    False                   False  False            False   \n",
+       "7                    False                   False  False            False   \n",
+       "8                    False                   False  False            False   \n",
+       "9                    False                   False  False            False   \n",
+       "10                   False                   False  False             True   \n",
+       "11                   False                   False  False            False   \n",
+       "12                   False                   False  False            False   \n",
+       "13                   False                   False  False            False   \n",
+       "\n",
+       "    Cast_Total_facebook_likes  facenumber_in_poster  num_user_for_reviews  \\\n",
+       "0                       False                 False                 False   \n",
+       "1                       False                 False                 False   \n",
+       "2                       False                 False                 False   \n",
+       "3                       False                 False                 False   \n",
+       "4                       False                 False                 False   \n",
+       "5                       False                 False                 False   \n",
+       "6                        True                 False                 False   \n",
+       "7                       False                 False                 False   \n",
+       "8                       False                 False                 False   \n",
+       "9                       False                 False                 False   \n",
+       "10                      False                 False                 False   \n",
+       "11                       True                 False                 False   \n",
+       "12                      False                 False                 False   \n",
+       "13                      False                 False                 False   \n",
+       "\n",
+       "    budget  title_year  ACTOR_2_facebook_likes  imdb_score  title_year.1  \n",
+       "0    False       False                   False       False         False  \n",
+       "1    False       False                   False       False         False  \n",
+       "2    False       False                   False       False         False  \n",
+       "3    False       False                   False       False         False  \n",
+       "4    False       False                   False       False         False  \n",
+       "5    False       False                   False       False         False  \n",
+       "6    False       False                   False       False         False  \n",
+       "7    False       False                   False       False         False  \n",
+       "8    False       False                   False       False         False  \n",
+       "9    False       False                   False       False         False  \n",
+       "10   False       False                    True       False         False  \n",
+       "11   False       False                   False       False         False  \n",
+       "12   False       False                   False       False         False  \n",
+       "13   False       False                   False       False         False  "
+      ]
+     },
+     "execution_count": 34,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.isnull()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 35,
+   "id": "1791e2a5",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:19.913252Z",
+     "iopub.status.busy": "2025-04-07T19:16:19.912848Z",
+     "iopub.status.idle": "2025-04-07T19:16:19.921298Z",
+     "shell.execute_reply": "2025-04-07T19:16:19.920191Z"
+    },
+    "papermill": {
+     "duration": 0.027812,
+     "end_time": "2025-04-07T19:16:19.923261",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:19.895449",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "movie_title                  0\n",
+       "num_critic_for_reviews       0\n",
+       "duration                     0\n",
+       "DIRECTOR_facebook_likes      2\n",
+       "actor_3_facebook_likes       0\n",
+       "ACTOR_1_facebook_likes       0\n",
+       "gross                        0\n",
+       "num_voted_users              1\n",
+       "Cast_Total_facebook_likes    2\n",
+       "facenumber_in_poster         0\n",
+       "num_user_for_reviews         0\n",
+       "budget                       0\n",
+       "title_year                   0\n",
+       "ACTOR_2_facebook_likes       1\n",
+       "imdb_score                   0\n",
+       "title_year.1                 0\n",
+       "dtype: int64"
+      ]
+     },
+     "execution_count": 35,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.isnull().sum()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 36,
+   "id": "c7f0885a",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:19.957321Z",
+     "iopub.status.busy": "2025-04-07T19:16:19.956967Z",
+     "iopub.status.idle": "2025-04-07T19:16:19.967723Z",
+     "shell.execute_reply": "2025-04-07T19:16:19.966358Z"
+    },
+    "papermill": {
+     "duration": 0.029721,
+     "end_time": "2025-04-07T19:16:19.969834",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:19.940113",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "<class 'pandas.core.frame.DataFrame'>\n",
+      "RangeIndex: 14 entries, 0 to 13\n",
+      "Data columns (total 16 columns):\n",
+      " #   Column                     Non-Null Count  Dtype  \n",
+      "---  ------                     --------------  -----  \n",
+      " 0   movie_title                14 non-null     object \n",
+      " 1   num_critic_for_reviews     14 non-null     int64  \n",
+      " 2   duration                   14 non-null     float64\n",
+      " 3   DIRECTOR_facebook_likes    12 non-null     object \n",
+      " 4   actor_3_facebook_likes     14 non-null     int64  \n",
+      " 5   ACTOR_1_facebook_likes     14 non-null     int64  \n",
+      " 6   gross                      14 non-null     int64  \n",
+      " 7   num_voted_users            13 non-null     float64\n",
+      " 8   Cast_Total_facebook_likes  12 non-null     float64\n",
+      " 9   facenumber_in_poster       14 non-null     float64\n",
+      " 10  num_user_for_reviews       14 non-null     int64  \n",
+      " 11  budget                     14 non-null     int64  \n",
+      " 12  title_year                 14 non-null     int64  \n",
+      " 13  ACTOR_2_facebook_likes     13 non-null     float64\n",
+      " 14  imdb_score                 14 non-null     float64\n",
+      " 15  title_year.1               14 non-null     float64\n",
+      "dtypes: float64(7), int64(7), object(2)\n",
+      "memory usage: 1.9+ KB\n"
+     ]
+    }
+   ],
+   "source": [
+    "df.info()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 37,
+   "id": "14c3f3ce",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:20.003890Z",
+     "iopub.status.busy": "2025-04-07T19:16:20.003466Z",
+     "iopub.status.idle": "2025-04-07T19:16:20.011231Z",
+     "shell.execute_reply": "2025-04-07T19:16:20.010254Z"
+    },
+    "papermill": {
+     "duration": 0.026666,
+     "end_time": "2025-04-07T19:16:20.012936",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:19.986270",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "movie_title                  0\n",
+       "num_critic_for_reviews       0\n",
+       "duration                     0\n",
+       "DIRECTOR_facebook_likes      2\n",
+       "actor_3_facebook_likes       0\n",
+       "ACTOR_1_facebook_likes       0\n",
+       "gross                        0\n",
+       "num_voted_users              1\n",
+       "Cast_Total_facebook_likes    2\n",
+       "facenumber_in_poster         0\n",
+       "num_user_for_reviews         0\n",
+       "budget                       0\n",
+       "title_year                   0\n",
+       "ACTOR_2_facebook_likes       1\n",
+       "imdb_score                   0\n",
+       "title_year.1                 0\n",
+       "dtype: int64"
+      ]
+     },
+     "execution_count": 37,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.isnull().sum()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 38,
+   "id": "bf8fb2da",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:20.048292Z",
+     "iopub.status.busy": "2025-04-07T19:16:20.047895Z",
+     "iopub.status.idle": "2025-04-07T19:16:20.060191Z",
+     "shell.execute_reply": "2025-04-07T19:16:20.058625Z"
+    },
+    "papermill": {
+     "duration": 0.03213,
+     "end_time": "2025-04-07T19:16:20.062125",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:20.029995",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "<class 'pandas.core.frame.DataFrame'>\n",
+      "RangeIndex: 14 entries, 0 to 13\n",
+      "Data columns (total 16 columns):\n",
+      " #   Column                     Non-Null Count  Dtype  \n",
+      "---  ------                     --------------  -----  \n",
+      " 0   movie_title                14 non-null     object \n",
+      " 1   num_critic_for_reviews     14 non-null     int64  \n",
+      " 2   duration                   14 non-null     float64\n",
+      " 3   DIRECTOR_facebook_likes    12 non-null     object \n",
+      " 4   actor_3_facebook_likes     14 non-null     int64  \n",
+      " 5   ACTOR_1_facebook_likes     14 non-null     int64  \n",
+      " 6   gross                      14 non-null     int64  \n",
+      " 7   num_voted_users            13 non-null     float64\n",
+      " 8   Cast_Total_facebook_likes  12 non-null     float64\n",
+      " 9   facenumber_in_poster       14 non-null     float64\n",
+      " 10  num_user_for_reviews       14 non-null     int64  \n",
+      " 11  budget                     14 non-null     int64  \n",
+      " 12  title_year                 14 non-null     int64  \n",
+      " 13  ACTOR_2_facebook_likes     13 non-null     float64\n",
+      " 14  imdb_score                 14 non-null     float64\n",
+      " 15  title_year.1               14 non-null     float64\n",
+      "dtypes: float64(7), int64(7), object(2)\n",
+      "memory usage: 1.9+ KB\n"
+     ]
+    }
+   ],
+   "source": [
+    "df.info()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "b61449ec",
+   "metadata": {
+    "papermill": {
+     "duration": 0.016419,
+     "end_time": "2025-04-07T19:16:20.094883",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:20.078464",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "4. Rorward and Backward Filling - Imputation bill(), ffill()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 39,
+   "id": "b53b44d5",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:20.129894Z",
+     "iopub.status.busy": "2025-04-07T19:16:20.129464Z",
+     "iopub.status.idle": "2025-04-07T19:16:20.141135Z",
+     "shell.execute_reply": "2025-04-07T19:16:20.139991Z"
+    },
+    "papermill": {
+     "duration": 0.031023,
+     "end_time": "2025-04-07T19:16:20.143037",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:20.112014",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "0        10\n",
+       "1       563\n",
+       "2        20\n",
+       "3     22000\n",
+       "4     \"475\"\n",
+       "5        23\n",
+       "6        15\n",
+       "7        10\n",
+       "8        10\n",
+       "9       282\n",
+       "10      395\n",
+       "11      395\n",
+       "12      395\n",
+       "13      563\n",
+       "Name: DIRECTOR_facebook_likes, dtype: object"
+      ]
+     },
+     "execution_count": 39,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df[\"DIRECTOR_facebook_likes\"].bfill()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 40,
+   "id": "d1fad3d1",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:20.178591Z",
+     "iopub.status.busy": "2025-04-07T19:16:20.178210Z",
+     "iopub.status.idle": "2025-04-07T19:16:20.185682Z",
+     "shell.execute_reply": "2025-04-07T19:16:20.184544Z"
+    },
+    "papermill": {
+     "duration": 0.026959,
+     "end_time": "2025-04-07T19:16:20.187633",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:20.160674",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "0        10\n",
+       "1       563\n",
+       "2        20\n",
+       "3     22000\n",
+       "4     \"475\"\n",
+       "5        23\n",
+       "6        15\n",
+       "7        10\n",
+       "8        10\n",
+       "9       282\n",
+       "10      282\n",
+       "11      282\n",
+       "12      395\n",
+       "13      563\n",
+       "Name: DIRECTOR_facebook_likes, dtype: object"
+      ]
+     },
+     "execution_count": 40,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df[\"DIRECTOR_facebook_likes\"].ffill() # here we choose fill() cause this matches with the data"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "27d20c98",
+   "metadata": {
+    "papermill": {
+     "duration": 0.017429,
+     "end_time": "2025-04-07T19:16:20.221536",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:20.204107",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "**null values are 10 and 11 bfill() means from back(down) same values passed to all null values while fill() means from forward(front) same values passed to all null values** "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 41,
+   "id": "29a01872",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:20.256842Z",
+     "iopub.status.busy": "2025-04-07T19:16:20.256322Z",
+     "iopub.status.idle": "2025-04-07T19:16:20.264638Z",
+     "shell.execute_reply": "2025-04-07T19:16:20.263549Z"
+    },
+    "papermill": {
+     "duration": 0.028297,
+     "end_time": "2025-04-07T19:16:20.266472",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:20.238175",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "movie_title                  0\n",
+       "num_critic_for_reviews       0\n",
+       "duration                     0\n",
+       "DIRECTOR_facebook_likes      2\n",
+       "actor_3_facebook_likes       0\n",
+       "ACTOR_1_facebook_likes       0\n",
+       "gross                        0\n",
+       "num_voted_users              1\n",
+       "Cast_Total_facebook_likes    2\n",
+       "facenumber_in_poster         0\n",
+       "num_user_for_reviews         0\n",
+       "budget                       0\n",
+       "title_year                   0\n",
+       "ACTOR_2_facebook_likes       1\n",
+       "imdb_score                   0\n",
+       "title_year.1                 0\n",
+       "dtype: int64"
+      ]
+     },
+     "execution_count": 41,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.isnull().sum()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 42,
+   "id": "5ca3f199",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:20.301950Z",
+     "iopub.status.busy": "2025-04-07T19:16:20.301557Z",
+     "iopub.status.idle": "2025-04-07T19:16:20.306888Z",
+     "shell.execute_reply": "2025-04-07T19:16:20.305784Z"
+    },
+    "papermill": {
+     "duration": 0.024545,
+     "end_time": "2025-04-07T19:16:20.308773",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:20.284228",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "df['DIRECTOR_facebook_likes'] = df['DIRECTOR_facebook_likes'].ffill()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 43,
+   "id": "d1349d8e",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:20.343556Z",
+     "iopub.status.busy": "2025-04-07T19:16:20.343215Z",
+     "iopub.status.idle": "2025-04-07T19:16:20.351768Z",
+     "shell.execute_reply": "2025-04-07T19:16:20.350385Z"
+    },
+    "papermill": {
+     "duration": 0.028256,
+     "end_time": "2025-04-07T19:16:20.353491",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:20.325235",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "movie_title                  0\n",
+       "num_critic_for_reviews       0\n",
+       "duration                     0\n",
+       "DIRECTOR_facebook_likes      0\n",
+       "actor_3_facebook_likes       0\n",
+       "ACTOR_1_facebook_likes       0\n",
+       "gross                        0\n",
+       "num_voted_users              1\n",
+       "Cast_Total_facebook_likes    2\n",
+       "facenumber_in_poster         0\n",
+       "num_user_for_reviews         0\n",
+       "budget                       0\n",
+       "title_year                   0\n",
+       "ACTOR_2_facebook_likes       1\n",
+       "imdb_score                   0\n",
+       "title_year.1                 0\n",
+       "dtype: int64"
+      ]
+     },
+     "execution_count": 43,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.isnull().sum()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 44,
+   "id": "ad4f9429",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:20.388865Z",
+     "iopub.status.busy": "2025-04-07T19:16:20.388440Z",
+     "iopub.status.idle": "2025-04-07T19:16:20.396140Z",
+     "shell.execute_reply": "2025-04-07T19:16:20.395126Z"
+    },
+    "papermill": {
+     "duration": 0.027167,
+     "end_time": "2025-04-07T19:16:20.397979",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:20.370812",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "0      886204.0\n",
+       "1      471220.0\n",
+       "2      275868.0\n",
+       "3     1144337.0\n",
+       "4      212204.0\n",
+       "5      383056.0\n",
+       "6      294810.0\n",
+       "7      462669.0\n",
+       "8      462669.0\n",
+       "9      321795.0\n",
+       "10     321795.0\n",
+       "11     240396.0\n",
+       "12     330784.0\n",
+       "13     522040.0\n",
+       "Name: num_voted_users, dtype: float64"
+      ]
+     },
+     "execution_count": 44,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df['num_voted_users'].ffill()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 45,
+   "id": "5b55ae23",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:20.434553Z",
+     "iopub.status.busy": "2025-04-07T19:16:20.434212Z",
+     "iopub.status.idle": "2025-04-07T19:16:20.442258Z",
+     "shell.execute_reply": "2025-04-07T19:16:20.441021Z"
+    },
+    "papermill": {
+     "duration": 0.027918,
+     "end_time": "2025-04-07T19:16:20.444142",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:20.416224",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "0      886204.0\n",
+       "1      471220.0\n",
+       "2      275868.0\n",
+       "3     1144337.0\n",
+       "4      212204.0\n",
+       "5      383056.0\n",
+       "6      294810.0\n",
+       "7      462669.0\n",
+       "8      462669.0\n",
+       "9      321795.0\n",
+       "10     240396.0\n",
+       "11     240396.0\n",
+       "12     330784.0\n",
+       "13     522040.0\n",
+       "Name: num_voted_users, dtype: float64"
+      ]
+     },
+     "execution_count": 45,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df['num_voted_users'].bfill()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 46,
+   "id": "6ec79bb3",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:20.480554Z",
+     "iopub.status.busy": "2025-04-07T19:16:20.480197Z",
+     "iopub.status.idle": "2025-04-07T19:16:20.485179Z",
+     "shell.execute_reply": "2025-04-07T19:16:20.484092Z"
+    },
+    "papermill": {
+     "duration": 0.025818,
+     "end_time": "2025-04-07T19:16:20.486730",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:20.460912",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "df['num_voted_users'] = df['num_voted_users'].ffill()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 47,
+   "id": "986941bb",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:20.522104Z",
+     "iopub.status.busy": "2025-04-07T19:16:20.521597Z",
+     "iopub.status.idle": "2025-04-07T19:16:20.529828Z",
+     "shell.execute_reply": "2025-04-07T19:16:20.528481Z"
+    },
+    "papermill": {
+     "duration": 0.028245,
+     "end_time": "2025-04-07T19:16:20.531895",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:20.503650",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "movie_title                  0\n",
+       "num_critic_for_reviews       0\n",
+       "duration                     0\n",
+       "DIRECTOR_facebook_likes      0\n",
+       "actor_3_facebook_likes       0\n",
+       "ACTOR_1_facebook_likes       0\n",
+       "gross                        0\n",
+       "num_voted_users              0\n",
+       "Cast_Total_facebook_likes    2\n",
+       "facenumber_in_poster         0\n",
+       "num_user_for_reviews         0\n",
+       "budget                       0\n",
+       "title_year                   0\n",
+       "ACTOR_2_facebook_likes       1\n",
+       "imdb_score                   0\n",
+       "title_year.1                 0\n",
+       "dtype: int64"
+      ]
+     },
+     "execution_count": 47,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.isnull().sum()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 48,
+   "id": "61b15835",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:20.568510Z",
+     "iopub.status.busy": "2025-04-07T19:16:20.568119Z",
+     "iopub.status.idle": "2025-04-07T19:16:20.576651Z",
+     "shell.execute_reply": "2025-04-07T19:16:20.575295Z"
+    },
+    "papermill": {
+     "duration": 0.028979,
+     "end_time": "2025-04-07T19:16:20.578549",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:20.549570",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "0       4834.0\n",
+       "1      48350.0\n",
+       "2      11700.0\n",
+       "3     106759.0\n",
+       "4       1873.0\n",
+       "5      46055.0\n",
+       "6      46055.0\n",
+       "7      92000.0\n",
+       "8      92000.0\n",
+       "9      58753.0\n",
+       "10     24450.0\n",
+       "11     24450.0\n",
+       "12      2023.0\n",
+       "13     48486.0\n",
+       "Name: Cast_Total_facebook_likes, dtype: float64"
+      ]
+     },
+     "execution_count": 48,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df['Cast_Total_facebook_likes'].ffill()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 49,
+   "id": "368fd72a",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:20.613928Z",
+     "iopub.status.busy": "2025-04-07T19:16:20.613502Z",
+     "iopub.status.idle": "2025-04-07T19:16:20.621426Z",
+     "shell.execute_reply": "2025-04-07T19:16:20.620279Z"
+    },
+    "papermill": {
+     "duration": 0.028281,
+     "end_time": "2025-04-07T19:16:20.623917",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:20.595636",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "0       4834.0\n",
+       "1      48350.0\n",
+       "2      11700.0\n",
+       "3     106759.0\n",
+       "4       1873.0\n",
+       "5      46055.0\n",
+       "6      92000.0\n",
+       "7      92000.0\n",
+       "8      92000.0\n",
+       "9      58753.0\n",
+       "10     24450.0\n",
+       "11      2023.0\n",
+       "12      2023.0\n",
+       "13     48486.0\n",
+       "Name: Cast_Total_facebook_likes, dtype: float64"
+      ]
+     },
+     "execution_count": 49,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df['Cast_Total_facebook_likes'].bfill()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 50,
+   "id": "97c5c389",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:20.662762Z",
+     "iopub.status.busy": "2025-04-07T19:16:20.662367Z",
+     "iopub.status.idle": "2025-04-07T19:16:20.667403Z",
+     "shell.execute_reply": "2025-04-07T19:16:20.666047Z"
+    },
+    "papermill": {
+     "duration": 0.025836,
+     "end_time": "2025-04-07T19:16:20.669202",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:20.643366",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "df['Cast_Total_facebook_likes'] = df['Cast_Total_facebook_likes'].ffill()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 51,
+   "id": "e7b9ce92",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:20.706936Z",
+     "iopub.status.busy": "2025-04-07T19:16:20.706366Z",
+     "iopub.status.idle": "2025-04-07T19:16:20.714442Z",
+     "shell.execute_reply": "2025-04-07T19:16:20.713383Z"
+    },
+    "papermill": {
+     "duration": 0.028554,
+     "end_time": "2025-04-07T19:16:20.716390",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:20.687836",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "movie_title                  0\n",
+       "num_critic_for_reviews       0\n",
+       "duration                     0\n",
+       "DIRECTOR_facebook_likes      0\n",
+       "actor_3_facebook_likes       0\n",
+       "ACTOR_1_facebook_likes       0\n",
+       "gross                        0\n",
+       "num_voted_users              0\n",
+       "Cast_Total_facebook_likes    0\n",
+       "facenumber_in_poster         0\n",
+       "num_user_for_reviews         0\n",
+       "budget                       0\n",
+       "title_year                   0\n",
+       "ACTOR_2_facebook_likes       1\n",
+       "imdb_score                   0\n",
+       "title_year.1                 0\n",
+       "dtype: int64"
+      ]
+     },
+     "execution_count": 51,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.isnull().sum()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 52,
+   "id": "f685defc",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:20.753670Z",
+     "iopub.status.busy": "2025-04-07T19:16:20.753312Z",
+     "iopub.status.idle": "2025-04-07T19:16:20.761037Z",
+     "shell.execute_reply": "2025-04-07T19:16:20.760012Z"
+    },
+    "papermill": {
+     "duration": 0.027594,
+     "end_time": "2025-04-07T19:16:20.762500",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:20.734906",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "0       936.0\n",
+       "1      5000.0\n",
+       "2       393.0\n",
+       "3     23000.0\n",
+       "4       632.0\n",
+       "5     11000.0\n",
+       "6       553.0\n",
+       "7     21000.0\n",
+       "8     21000.0\n",
+       "9     11000.0\n",
+       "10    11000.0\n",
+       "11    10000.0\n",
+       "12      412.0\n",
+       "13     5000.0\n",
+       "Name: ACTOR_2_facebook_likes, dtype: float64"
+      ]
+     },
+     "execution_count": 52,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df['ACTOR_2_facebook_likes'].ffill()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 53,
+   "id": "31b301f7",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:20.799875Z",
+     "iopub.status.busy": "2025-04-07T19:16:20.799444Z",
+     "iopub.status.idle": "2025-04-07T19:16:20.807275Z",
+     "shell.execute_reply": "2025-04-07T19:16:20.806164Z"
+    },
+    "papermill": {
+     "duration": 0.029125,
+     "end_time": "2025-04-07T19:16:20.808967",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:20.779842",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "0       936.0\n",
+       "1      5000.0\n",
+       "2       393.0\n",
+       "3     23000.0\n",
+       "4       632.0\n",
+       "5     11000.0\n",
+       "6       553.0\n",
+       "7     21000.0\n",
+       "8     21000.0\n",
+       "9     11000.0\n",
+       "10    10000.0\n",
+       "11    10000.0\n",
+       "12      412.0\n",
+       "13     5000.0\n",
+       "Name: ACTOR_2_facebook_likes, dtype: float64"
+      ]
+     },
+     "execution_count": 53,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df['ACTOR_2_facebook_likes'].bfill()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 54,
+   "id": "509e001c",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:20.846808Z",
+     "iopub.status.busy": "2025-04-07T19:16:20.846403Z",
+     "iopub.status.idle": "2025-04-07T19:16:20.851535Z",
+     "shell.execute_reply": "2025-04-07T19:16:20.850293Z"
+    },
+    "papermill": {
+     "duration": 0.0256,
+     "end_time": "2025-04-07T19:16:20.853519",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:20.827919",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "df['ACTOR_2_facebook_likes'] = df['ACTOR_2_facebook_likes'].ffill()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 55,
+   "id": "76ded205",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-07T19:16:20.890872Z",
+     "iopub.status.busy": "2025-04-07T19:16:20.890475Z",
+     "iopub.status.idle": "2025-04-07T19:16:20.898456Z",
+     "shell.execute_reply": "2025-04-07T19:16:20.897312Z"
+    },
+    "papermill": {
+     "duration": 0.028703,
+     "end_time": "2025-04-07T19:16:20.900341",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:20.871638",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "movie_title                  0\n",
+       "num_critic_for_reviews       0\n",
+       "duration                     0\n",
+       "DIRECTOR_facebook_likes      0\n",
+       "actor_3_facebook_likes       0\n",
+       "ACTOR_1_facebook_likes       0\n",
+       "gross                        0\n",
+       "num_voted_users              0\n",
+       "Cast_Total_facebook_likes    0\n",
+       "facenumber_in_poster         0\n",
+       "num_user_for_reviews         0\n",
+       "budget                       0\n",
+       "title_year                   0\n",
+       "ACTOR_2_facebook_likes       0\n",
+       "imdb_score                   0\n",
+       "title_year.1                 0\n",
+       "dtype: int64"
+      ]
+     },
+     "execution_count": 55,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.isnull().sum()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "fe1cef4b",
+   "metadata": {
+    "papermill": {
+     "duration": 0.0173,
+     "end_time": "2025-04-07T19:16:20.936626",
+     "exception": false,
+     "start_time": "2025-04-07T19:16:20.919326",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kaggle": {
+   "accelerator": "none",
+   "dataSources": [
+    {
+     "datasetId": 4145412,
+     "sourceId": 7174085,
+     "sourceType": "datasetVersion"
+    }
+   ],
+   "dockerImageVersionId": 30918,
+   "isGpuEnabled": false,
+   "isInternetEnabled": true,
+   "language": "python",
+   "sourceType": "notebook"
+  },
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.10.12"
+  },
+  "papermill": {
+   "default_parameters": {},
+   "duration": 7.461136,
+   "end_time": "2025-04-07T19:16:21.575062",
+   "environment_variables": {},
+   "exception": null,
+   "input_path": "__notebook__.ipynb",
+   "output_path": "__notebook__.ipynb",
+   "parameters": {},
+   "start_time": "2025-04-07T19:16:14.113926",
+   "version": "2.6.0"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
